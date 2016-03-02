@@ -1,0 +1,47 @@
+{
+  "categories": [
+    "...",
+    "...",
+    "...",
+    "...",
+    "...",
+  ],
+  "questions": [
+    {
+      "description": "...",
+      "recentlyHasBeen": 0.25,
+      "sessionsAgo": 2,
+      "options": [
+        "...",
+        "...",
+        "...",
+        "...",
+      ],
+      "selfCategories": {
+        "...": true,
+        "...": true,
+        "...": true,
+        "...": true,
+        "...": true,
+      }
+    },
+    {
+      "description": "...",
+      "recentlyHasBeen": 0.5,
+      "sessionsAgo": 3,
+      "options": [
+        "...",
+        "...",
+        "...",
+        "...",
+      ],
+      "selfCategories": {
+        "...": true,
+        "...": true,
+        "...": true,
+        "...": true,
+        "...": true,
+      }
+    },
+  ]
+}
