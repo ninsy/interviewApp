@@ -1,14 +1,30 @@
 'use strict';
 
-angular.module('myApp.view2', ['ngRoute'])
+angular
+  .module('interviewApp')
+  .config('generateConfig', generateConfig)
+  .controller('GenerateCtrl', GenerateController );
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view2', {
-    templateUrl: 'view2/view2.html',
-    controller: 'View2Ctrl'
-  });
-}])
+generateConfig.$inject = ['$stateProvider'];
+GenerateController.$inject = [];
+generateAuthCheck.$inject = ['Auth'];
 
-.controller('View2Ctrl', [function() {
+function GenerateController() {
 
-}]);
+}
+
+function generateConfig($stateProvider) {
+  $stateProvider.state("generate", {
+      url: "/generate",
+      templateUrl: "generate/generate.html",
+      controller: "GenerateCtrl",
+      controllerAs: "generator",
+      resolve: {
+        'currentUser': generateAuthCheck
+      }
+  })
+}
+
+function generateAuthCheck(Auth) {
+   return Auth.$requireAuth();
+}

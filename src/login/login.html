@@ -1,1 +1,74 @@
-<p>This is the partial for view 1.</p>
+<div class="form-wrap">
+  <form
+  name="login.loginForm"
+  class="login-form"
+  ng-submit="login.submit(login.loginForm.$valid)"
+  novalidate >
+
+    <h2>Please sign in/up</h2>
+    <p
+    class="alert login-alert"
+    ng-if="login.error"
+    ng-bind="{{login.error}}}">
+    </p>
+
+    <fieldset>
+
+      <div>
+        <input
+        type='email'
+        name="mailInput"
+        ng-model="login.loginForm.email"
+        minlength="3"
+        maxlength="254"
+        placeholder="Enter your email:"
+        autofocus
+        required />
+        <div
+        ng-messages="login.loginForm.mailInput.$error"
+        class="alert form-alert">
+          <span
+          ng-message="required">
+          You did not enter your email!
+          </span>
+          <span
+          ng-message="pattern">
+          Your email is incorrect!
+          </span>
+          <span
+          ng-message="minlength">
+          Your email is too short!
+          </span>
+          <span
+          ng-message="maxlength">
+          Your email is too long!
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <input
+        type="password"
+        ng-model="login.loginForm.pass"
+        pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$"
+        required />
+      </div>
+
+      <div>
+        <label>
+          <input type="checkbox"
+          ng-model="login.loginForm.register"/>
+          New user?
+        </label>
+      </div>
+
+      <button
+      class="btn btn-default"
+      type=submit
+      ng-disabled="!(login.loginForm.$valid)">
+      </button>
+
+    </fieldset>
+
+  </form>
+</div>

@@ -1,55 +1,26 @@
 'use strict';
 
-// Declare app level module which depends on views, and components
-angular.module('interviewApp', [
-  'ui.router',
-  'firebase',
-  "interview.components",
-  'ngResource',
-  "mgcrea.ngStrap"
-])
+angular
+  .module('interviewApp')
   .constant("FIREBASE_URI", "https://jinterviewapp.firebaseio.com/")
   .constant("QUESTIONS_CONST", 0.123)
-  .config(function($stateProvider, $urlRouterProvider) {
+  .constant("SECRET", "dm7UA3n8qJoKgMedLtNnfidrBzB0p4n0yqhVa6jt")
+  .config("appConfig", appConfig)
+  .run('runner', runner)
 
-    $urlRouterProvider.otherwise("/generate");
+interviewApp.$inject = ['ui.router', 'firebase', "interview.components", 'ngResource', "mgcrea.ngStrap"];
+appConfig.$inject = ["$urlRouterProvide"];
+runner.$inject = ["$rootScope", "$state"];
 
-    $stateProvider
-      .state("login", {
-        url: "/login",
-        templateUrl: "login/login.html",
-        controller: "LoginCtrl",
-        controllerAs: "login"
-      })
-      .state("generate", {
-        url: "/generate",
-        templateUrl: "generate/generate.html",
-        controller: "GenerateCtrl",
-        controllerAs: "generator",
-        resolve: {
-          'currentUser': ["Auth", function(Auth) {
-            return Auth.$requireAuth();
-          }]
-        }
-      })
-      .state("creator", {
-        url: "/creator",
-        templateUrl: "creator/creator.html",
-        controller: "CreatorCtrl",
-        controllerAs: "creator",
-        resolve: {
-          'currentUser': ["Auth", function(Auth) {
-            return Auth.$requireAuth();
-          }]
-        }
-      });
+function appConfig($urlRouterProvider) {
+  $urlRouterProvider.otherwise("/generate");
+}
+
+function runner($rootScope, $state) {
+  $rootScope.on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
+    event.preventDefault();
+    if(error === "AUTH_REQUIRED") {
+      $state.go("/login");
     }
   })
-  .run(function($rootScope, $state) {
-    $rootScope.on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
-      event.preventDefault();
-      if(error === "AUTH_REQUIRED") {
-        $state.go("/login");
-      }
-    })
-  })
+}

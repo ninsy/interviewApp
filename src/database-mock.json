@@ -1,47 +1,50 @@
 {
-  "categories": [
-    "...",
-    "...",
-    "...",
-    "...",
-    "...",
-  ],
-  "questions": [
-    {
-      "description": "...",
-      "recentlyHasBeen": 0.25,
-      "sessionsAgo": 2,
-      "options": [
-        "...",
-        "...",
-        "...",
-        "...",
-      ],
-      "selfCategories": {
-        "...": true,
-        "...": true,
-        "...": true,
-        "...": true,
-        "...": true,
+  "users": {
+    "49f9fc92-e5dc-41c3-8cf6-6cc9075c4f7c": {
+        "categories": [
+          "performance",
+          "algorithms",
+          "angular",
+          "html&css"
+        ],
+        "questions": [
+          {
+            "description": "...",
+            "recentlyHasBeen": 0.25,
+            "sessionsAgo": 2,
+            "options": [
+              "...",
+              "...",
+              "...",
+              "..."
+            ],
+            "selfCategories": {
+              "foo": true,
+              "bar": true,
+              "baz": true,
+              "eax": true,
+              "eaf": true
+            }
+          },
+          {
+            "description": "...",
+            "recentlyHasBeen": 0.5,
+            "sessionsAgo": 3,
+            "options": [
+              "...",
+              "...",
+              "...",
+              "..."
+            ],
+            "selfCategories": {
+              "foo": true,
+              "bar": true,
+              "baz": true,
+              "eax": true,
+              "eaf": true
+            }
+          }
+        ]
       }
-    },
-    {
-      "description": "...",
-      "recentlyHasBeen": 0.5,
-      "sessionsAgo": 3,
-      "options": [
-        "...",
-        "...",
-        "...",
-        "...",
-      ],
-      "selfCategories": {
-        "...": true,
-        "...": true,
-        "...": true,
-        "...": true,
-        "...": true,
-      }
-    },
-  ]
+  }
 }

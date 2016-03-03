@@ -1,11 +1,14 @@
 var gulp = require("gulp"),
   sass = require("gulp-sass"),
   webserver = require("gulp-webserver"),
-  cleanCSS = require('gulp-clean-css')
-  uglify = require("gulp-uglify");
+  cleanCSS = require('gulp-clean-css'),
+  uglify = require("gulp-uglify"),
+  sourcemaps = require("gulp-sourcemaps"),
+  autoprefixer = require('gulp-autoprefixer'),
+  savefile = require('gulp-savefile');
 
 gulp.task("watch", function() {
-  gulp.watch("src/app.scss", ["build-css"]);
+  gulp.watch("src/assets/scss/**/*.scss", ["build-css"]);
 })
 
 gulp.task("server", function() {
@@ -19,8 +22,15 @@ gulp.task("server", function() {
 })
 
 gulp.task("build-css", function() {
-  return gulp.src("src/app.scss")
+  return gulp.src("src/assets/scss/app.scss")
+      .pipe(savefile())
+      .pipe(sourcemaps.init())
+      .pipe(autoprefixer({
+        browsers: ['last 2 versions'],
+        cascade: false
+      }))
       .pipe(sass())
+      .pipe(sourcemaps.write("."))
       .pipe(gulp.dest("dev/app.css"));
 });
 

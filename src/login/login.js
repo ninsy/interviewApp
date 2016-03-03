@@ -1,14 +1,72 @@
 'use strict';
 
-angular.module('myApp.view1', ['ngRoute'])
+angular
+  .module('interviewApp')
+  .config('LoginConfig', loginConfig )
+  .controller('LoginCtrl',  loginController);
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {
-    templateUrl: 'view1/view1.html',
-    controller: 'View1Ctrl'
-  });
-}])
+loginConfig.$inject = ['$stateProvider'];
+loginController.$inject = ["UserModel, $state"];
 
-.controller('View1Ctrl', [function() {
+function loginConfig($stateProvider) {
+  $stateProvider
+    .state("login", {
+      url: "/login",
+      templateUrl: "login/login.html",
+      controller: "LoginCtrl",
+      controllerAs: "login"
+    })
+}
 
-}]);
+function loginController() {
+  var login = this;
+
+  var formData = {
+    email: login.loginForm.email,
+    pass: login.loginForm.pass
+  }
+
+  function register() {
+    UserModel.register(formData)
+      .then(logIn)
+      .catch(onError)
+      .finally(onCompletion)
+  }
+
+  function logIn() {
+    UserModel.login(formData)
+      .then(onSuccess)
+      .catch(onError)
+      .finally(onCompletion)
+  }
+
+  function onSuccess(result) {
+    $state.go("boards");
+  }
+
+  function onError(error) {
+    login.error = error.reason;
+  }
+
+  function onCompletion() {
+    login.reset();
+  }
+
+  login.submit = function(isValid) {
+    if(isValid) {
+
+      if(login.loginForm.register) {
+        register();
+      }
+      else {
+        logIn();
+      }
+    }
+  }
+
+  login.reset = function() {
+    login.loginForm.email = ''
+    login.loginForm.pass = ''
+    login.loginForm.register = false;
+  }
+}
