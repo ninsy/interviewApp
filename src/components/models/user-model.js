@@ -7,8 +7,10 @@ angular
 userModel.$inject = ["Auth"];
 
 function UserModel(Auth) {
-  var service = this,
-    currentUser = null;
+  var service = this;
+
+
+    service.currentUser = null;
 
     service.getCurrentUser = function() {
       return currentUser;
@@ -54,6 +56,14 @@ function UserModel(Auth) {
     service.logout = function() {
       Auth.$unauth();
       currentUser = null;
+    }
+
+    return {
+      logout: logout,
+      register: register,
+      login: login,
+      setCurrentUser: setCurrentUser,
+      getCurrentUser: getCurrentUser
     }
 
 }

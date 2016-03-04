@@ -1,19 +1,18 @@
 <div class="summary">
   <ul class="picked-questions">
-    <li ng-repeat="question in DataModel.pickedQuestions | orderBy: '-recentlyHasBeen' ">
+    <li ng-repeat="question in DataModel.pickedQuestions">
         <button
-        ng-click="creator.editQuestion(question)"></button>
+        ng-click="summary.editQuestion(question)"></button>
         <button></button>
         <input
+        name="summary.questionDescription"
         type="text"
         placeholder="{{question.description}}" />
         <input
         type="checkbox"
         ng-model="checked"
         ng-disabled="checked"
-        ng-click="creator.markAsAsked(question)"></button>
+        ng-click="summary.markAsAsked(question)"></button>
     </li>
   </ul>
 </div>
-
-<!-- USUN TO Z TYM CHECKBOXEM, BO CO JAK KTOS SIE POMYLI? -->

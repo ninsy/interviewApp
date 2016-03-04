@@ -7,7 +7,7 @@
 
     <h2>Please sign in/up</h2>
     <p
-    class="alert login-alert"
+    class="alert-login"
     ng-if="login.error"
     ng-bind="{{login.error}}}">
     </p>
@@ -19,6 +19,7 @@
         type='email'
         name="mailInput"
         ng-model="login.loginForm.email"
+        pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
         minlength="3"
         maxlength="254"
         placeholder="Enter your email:"
@@ -26,7 +27,7 @@
         required />
         <div
         ng-messages="login.loginForm.mailInput.$error"
-        class="alert form-alert">
+        class="alert-form">
           <span
           ng-message="required">
           You did not enter your email!
@@ -49,9 +50,30 @@
       <div>
         <input
         type="password"
+        name="passInput"
         ng-model="login.loginForm.pass"
         pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$"
         required />
+        <div
+        ng-messages="login.loginForm.passInput.$error"
+        class="alert-form">
+          <span
+          ng-message="required">
+          You did not enter your password!
+          </span>
+          <span
+          ng-message="pattern">
+          Your password is incorrect!
+          </span>
+          <span
+          ng-message="minlength">
+          Your password is too short!
+          </span>
+          <span
+          ng-message="maxlength">
+          Your password is too long!
+          </span>
+        </div>
       </div>
 
       <div>

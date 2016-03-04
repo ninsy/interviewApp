@@ -1,14 +1,14 @@
 {
   "users": {
     "49f9fc92-e5dc-41c3-8cf6-6cc9075c4f7c": {
-        "categories": [
-          "performance",
-          "algorithms",
-          "angular",
-          "html&css"
-        ],
-        "questions": [
-          {
+        "categories": {
+          "id1": "performance",
+          "id2": "algorithms",
+          "id3": "angular",
+          "id4": "html&css"
+        },
+        "questions": {
+          "qid1": {
             "description": "...",
             "recentlyHasBeen": 0.25,
             "sessionsAgo": 2,
@@ -19,14 +19,14 @@
               "..."
             ],
             "selfCategories": {
-              "foo": true,
-              "bar": true,
-              "baz": true,
-              "eax": true,
-              "eaf": true
+              "id1": true,
+              "id2": true,
+              "id3": true,
+              "id4": true,
+              "id5": true
             }
           },
-          {
+          "qid2": {
             "description": "...",
             "recentlyHasBeen": 0.5,
             "sessionsAgo": 3,
@@ -44,7 +44,7 @@
               "eaf": true
             }
           }
-        ]
+        }
       }
   }
 }

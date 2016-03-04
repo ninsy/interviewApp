@@ -1,0 +1,9 @@
+@mixin selectable($bg-color: lighten($j-color, 10)) {
+  background-color: $bg-color;
+  &:hover {
+    background-color: lighten($bg-color, 10);
+  }
+  &.active {
+    background-color: darken($bg-color, 10);
+  }
+}
