@@ -3,17 +3,25 @@
 angular
   .module("interview.components")
   .factory("dataModel", dataModel)
-  .factory("requestsModel", RequestsModel)
 
-categoriesModel.$inject = ["UserModel", "ngResource", "FIREBASE_URI"];
+dataModel.$inject = ["UserModel", "requestUser"];
 
 
-function dataModel(requestsModel) {
+function dataModel(UserModel, requestUser) {
 
   var service = this;
 
   service.pickedQuestions = [];
+  service.pickedCategories = [];
+  service.userData = {};
 
+  service.fetchData = function() {
+    requestUser.query({user: UserModel.getCurrentUser}, function(data) {
+      // TODO: koniecznie sprawdzic, czy poprawnie zwroci dwie tablice
+      service.userData["userQuestions"] = data[0];
+      serice.userData["userCategories"] = data[1];
+    });
+  }
 
   service.appendQuestion = function(question) {
     service.pickedQuestions.append(question);
@@ -44,9 +52,11 @@ function dataModel(requestsModel) {
 
   service.resetData = function() {
     service.pickedQuestions.length = 0;
+    service.pickedCategories.length = 0;
   }
 
   return  {
+    prepareData: prepareData,
     appendQuestion: appendQuestion,
     detachQuestion: detachQuestion,
     resetData: resetData

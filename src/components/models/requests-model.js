@@ -12,14 +12,14 @@ requestCategoriesService.$inject = ["ngResource", "FIREBASE_URI"];
 
 function requestUser($resource, FIREBASE_URI) {
 
-  var questions = $resource(FIREBASE_URI + "/users/:user", {user: '@user'});
-  return questions;
+  var user = $resource(FIREBASE_URI + "/users/:user", {user: '@user'});
+  return user;
 }
 
 function requestQuestionsService($resource, FIREBASE_URI) {
 
   var questions = $resource(FIREBASE_URI + "/users/:user/questions/:question", {user: '@user', question: "@question" }, {
-    updateQuestion: {
+    updateQuestions: {
       method: "PUT"
     }
   });
@@ -30,7 +30,7 @@ function requestQuestionsService($resource, FIREBASE_URI) {
 function requestCategoriesService($resource, FIREBASE_URI) {
 
   var categories = $resource(FIREBASE_URI + "users/:user/categories/:category", {user: "@user", category: "@category"}, {
-    updateCategory: {
+    updateCategories: {
       method: "PUT"
     }
   });

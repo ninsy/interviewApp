@@ -1,0 +1,98 @@
+<div id="wrapper-modal">
+
+  // TODO: drugi form widoczny w przypadku edycji
+  <form
+  name="questionModal.questionForm"
+  class="modal-form"
+  ng-submit="questionModal.createQuestion(questionModal.questionForm.$valid)"
+  ng-if="questionModal.currentQuestion"
+  novalidate >
+
+    <h2>Create new question</h2>
+    <fieldset>
+      <div>
+        <input
+        type='text'
+        name="questionDescription"
+        ng-model="questionModal.questionForm.description"
+        minlength="1"
+        maxlength="80"
+        placeholder="Enter new question name:"
+        autofocus
+        required />
+        <div
+        ng-messages="questionModal.questionForm.questionDescription.$error"
+        class="alert-form">
+          <span
+          ng-message="required">
+          You did not enter question name!
+          </span>
+          <span
+          ng-message="minlength">
+          Question description musn't be empty!
+          </span>
+          <span
+          ng-message="maxlength">
+          Description is too long!
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <button
+         type="button"
+         class="btn btn-lg btn-primary"
+         bs-dropdown="dropdown" aria-haspopup="true"
+         aria-expanded="false">Choose categories
+          <br>
+          <small>(Multiple choice)</small>
+        </button>
+      </div>
+
+      <div>
+        <ul class="list-group">
+          <li
+          ng-repeat="chosen in questionModal.chosenOptions"
+          class="list-group-item">
+          {{chosen}}
+          <button class="btn btn-sm btn-error">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+          </li>
+        </ul>
+        <label>Insert your options</label>
+        <input
+        type='text'
+        name="questionOption"
+        ng-model="questionModal.questionForm.option"
+        minlength="1"
+        maxlength="40"
+        placeholder="Enter option description:"
+        autofocus/>
+        <div
+        ng-messages="questionModal.questionForm.option.$error"
+        class="alert-form">
+          <span
+          ng-message="minlength">
+          Option description musn't be empty!
+          </span>
+          <span
+          ng-message="maxlength">
+          Option is too long!
+          </span>
+        </div>
+        <button
+        ng-click="addOption(questionModal.questionForm.option.$valid)"></button>
+      </div>
+
+      <button
+      class="btn btn-default"
+      type=submit
+      ng-disabled="!(login.loginForm.$valid)">
+      Create New Question
+      </button>
+
+    </fieldset>
+
+  </form>
+</div>

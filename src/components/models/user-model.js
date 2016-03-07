@@ -4,9 +4,9 @@ angular
   .module("interview.components")
   .service("UserModel", UserModel)
 
-userModel.$inject = ["Auth"];
+userModel.$inject = ["Auth", "DataModel"];
 
-function UserModel(Auth) {
+function UserModel(Auth, DataModel) {
   var service = this;
 
 
@@ -55,6 +55,8 @@ function UserModel(Auth) {
 
     service.logout = function() {
       Auth.$unauth();
+      DataModel.resetData();
+      DataModel.userData = null;
       currentUser = null;
     }
 

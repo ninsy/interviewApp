@@ -22,7 +22,7 @@ function generateConfig($stateProvider) {
   })
 }
 
-function GenerateController(UserModel, DataModel,requestCategoriesService, requestQuestionsService ,requestUser,$state) {
+function GenerateController(UserModel, DataModel,$state) {
 
   var generator = this;
 
@@ -30,8 +30,8 @@ function GenerateController(UserModel, DataModel,requestCategoriesService, reque
   generator.errorFlag = false;
 
 
-    function prepareData() {
-      generator.data = requestUser.get({user: UserModel.getCurrentUser()})
+    generator.prepareData = function() {
+      DataModel.fetchData()
     }
 
     generator.setCategory = function(category) {
@@ -63,6 +63,8 @@ function GenerateController(UserModel, DataModel,requestCategoriesService, reque
         generator.errorFlag = true;
       }
     }
+
+    generator.prepareData();
 
     return {
       setCategory: setCategory,

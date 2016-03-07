@@ -38,10 +38,11 @@ function creatorController(UserModel,  DataModel, requestQuestionsService, QUEST
 
   creator.isEditing = false;
   creator.isCreating = false;
+  creator.askedQuestions = [];
 
   creator.markAsAsked = function(question) {
 
-    
+
     // when clicked markAsAsked - disable its button to markAsAsked
     // possible redundancy
     var markedQuestion = DataModel.getQuestion(question);
@@ -61,6 +62,8 @@ function creatorController(UserModel,  DataModel, requestQuestionsService, QUEST
 
   creator.finishSession = function() {
     // TODO: for each question in picked ones, update its state
+
+
   }
 }
 
