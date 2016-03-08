@@ -41,11 +41,14 @@
       <div>
         <button
          type="button"
-         class="btn btn-lg btn-primary"
-         bs-dropdown="dropdown" aria-haspopup="true"
-         aria-expanded="false">Choose categories
+         class="btn btn-default"
+         ng-model=""
+         data-html="1"
+         data-multiple="1"
+         bs-options="option.value for option in options"
+         bs-select>Choose categories
           <br>
-          <small>(Multiple choice)</small>
+          <span class="caret">(Multiple choice)</span>
         </button>
       </div>
 

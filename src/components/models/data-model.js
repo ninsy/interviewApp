@@ -15,9 +15,10 @@ function dataModel(UserModel, requestUser) {
   service.pickedCategories = [];
   service.userData = {};
 
+  // TODO: Czy ta funkcja wewnatrz dziala jak promise?
   service.fetchData = function() {
     requestUser.query({user: UserModel.getCurrentUser}, function(data) {
-      // TODO: koniecznie sprawdzic, czy poprawnie zwroci dwie tablice
+      // TODO: koniecznie sprawdzic, w jakim formacie zwroci te dane
       service.userData["userQuestions"] = data[0];
       serice.userData["userCategories"] = data[1];
     });

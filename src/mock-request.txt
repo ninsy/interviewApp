@@ -1,0 +1,15 @@
+curl -X PUT -d '{
+
+"description": "wat is pointer",
+"recentlyHasBeen": 0.5,
+"sessionsAgo": 3,
+"options": [
+  "reference to the location in memory"
+],
+"selfCategories": {
+  "id1": true,
+  "id2": false,
+  "id3": true
+}
+
+}'  'https://jinterviewapp.firebaseio.com/users/49f9fc92-e5dc-41c3-8cf6-6cc9075c4f7c/questions/qid1.json'

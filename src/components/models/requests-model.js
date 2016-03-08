@@ -12,16 +12,19 @@ requestCategoriesService.$inject = ["ngResource", "FIREBASE_URI"];
 
 function requestUser($resource, FIREBASE_URI) {
 
-  var user = $resource(FIREBASE_URI + "/users/:user", {user: '@user'});
+  var user = $resource(FIREBASE_URI + "/users/:user" + ".json", {user: '@user'});
   return user;
 }
 
 function requestQuestionsService($resource, FIREBASE_URI) {
 
-  var questions = $resource(FIREBASE_URI + "/users/:user/questions/:question", {user: '@user', question: "@question" }, {
-    updateQuestions: {
-      method: "PUT"
-    }
+// TODO: Jak wyglada request bez podania question????
+  var questions = $resource(FIREBASE_URI + "/users/:userID/questions/:questionID" + ".json", {userID: '@userID', questionID: "@questionID" }, {
+    updateQuestion: {
+      method: "PUT",
+      url: FIREBASE_URI + "users/:user/questions/:questionID" + ".json"
+    },
+
   });
 
   return questions;
@@ -29,9 +32,10 @@ function requestQuestionsService($resource, FIREBASE_URI) {
 
 function requestCategoriesService($resource, FIREBASE_URI) {
 
-  var categories = $resource(FIREBASE_URI + "users/:user/categories/:category", {user: "@user", category: "@category"}, {
-    updateCategories: {
-      method: "PUT"
+  var categories = $resource(FIREBASE_URI + "users/:userID/categories/:categoryID" + ".json", {user: "@userID", category: "@categoryID"}, {
+    updateCategory: {
+      method: "PUT",
+      url: FIREBASE_URI + "users/:user/categories/:categoryID" + ".json"
     }
   });
 

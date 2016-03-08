@@ -6,7 +6,7 @@ angular
   .controller('GenerateCtrl', GenerateController );
 
 generateConfig.$inject = ['$stateProvider'];
-GenerateController.$inject = ['UserModel','DataModel','requestCategoriesService', "requestQuestionsService", "requestUser" , '$stateProvider'];
+GenerateController.$inject = ['UserModel','DataModel', "requestUser" , '$stateProvider'];
 generateAuthCheck.$inject = ['Auth'];
 
 function generateConfig($stateProvider) {

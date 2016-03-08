@@ -6,20 +6,22 @@
     .module("interviewApp")
     .controller("CategoryModalCtrl", CategoryController);
 
-  CategoryController.$inject = ["requestCategoriesService, DataModel"]
+  CategoryController.$inject = ["DataModel"]
 
   function CategoryController() {
 
       var categoryModal = this;
 
-      categoryModal.createResource = function(isValid) {
+      categoryModal.addCategory = function(isValid) {
         if(isValid) {
           // TODO: Jesli nie podam parametru questions, request bedzie mial forme user/questions?
-          requestQuestionsService.save({user: User.getCurrentUser}, categoryModal.newQuestionForm);
+
         }
       }
 
 
+      // TODO: do tablicy DataModel.pickedCategories dodawac nowe obiekty, majace key: ID edytowanej kategorii oraz value: nazwa kategorii po edycji, \
+      // tak zeby potem mozna sprwdzac otrzymane z firebase kategorie z kategoriami, ktore ulegly edycji
       categoryModal.editResource = function() {
         if(categoryModal.isEditingCategory) {
 

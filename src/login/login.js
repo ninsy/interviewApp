@@ -12,7 +12,7 @@ function loginConfig($stateProvider) {
   $stateProvider
     .state("login", {
       url: "/login",
-      templateUrl: "login/login.html",
+      templateUrl: "./login.js",
       controller: "LoginCtrl",
       controllerAs: "login"
     })
