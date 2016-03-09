@@ -75,6 +75,12 @@
       return true;
     }
 
+    function iterateThrough(userQuestions) {
+
+      userQuestions.forEach(function(el, i) {
+        accessedResourced
+      })
+    }
 
     function sendQuestions() {
 
