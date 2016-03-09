@@ -1,27 +1,25 @@
 <div id="wrapper-modal">
 
-  // TODO: drugi form widoczny w przypadku edycji
   <form
-  name="questionModal.questionForm"
+  name="questionModal.form"
   class="modal-form"
-  ng-submit="questionModal.createQuestion(questionModal.questionForm.$valid)"
+  ng-submit="questionModal.finish(questionModal.questionForm.$valid)"
   ng-if="questionModal.currentQuestion"
   novalidate >
 
-    <h2>Create new question</h2>
     <fieldset>
       <div>
         <input
         type='text'
         name="questionDescription"
-        ng-model="questionModal.questionForm.description"
+        ng-model="questionModal.formQuestion['description']"
         minlength="1"
         maxlength="80"
-        placeholder="Enter new question name:"
+        placeholder="Enter question name:"
         autofocus
         required />
         <div
-        ng-messages="questionModal.questionForm.questionDescription.$error"
+        ng-messages="questionModal.form.questionDescription.$error"
         class="alert-form">
           <span
           ng-message="required">
@@ -38,42 +36,35 @@
         </div>
       </div>
 
+
+      <!-- TODO: Sprawdzic czy ten select dziala poprawnie : aktywne kategorie w selfCategories, natomiast wszystkie pozostale zawsze wyswietlane -->
       <div>
         <button
          type="button"
          class="btn btn-default"
-         ng-model=""
+         ng-model="questionModal.formQuestion['selfCategories']"
          data-html="1"
          data-multiple="1"
-         bs-options="option.value for option in options"
-         bs-select>Choose categories
+         bs-options="icon.value as icon.label for icon in questionModal.selfCatIcons"
+         bs-select>Check categories
           <br>
           <span class="caret">(Multiple choice)</span>
         </button>
       </div>
 
       <div>
-        <ul class="list-group">
-          <li
-          ng-repeat="chosen in questionModal.chosenOptions"
-          class="list-group-item">
-          {{chosen}}
-          <button class="btn btn-sm btn-error">
-            <span class="glyphicon glyphicon-remove"></span>
-          </button>
-          </li>
-        </ul>
+
         <label>Insert your options</label>
         <input
         type='text'
+        ng-model="questionModal.newOption"
         name="questionOption"
-        ng-model="questionModal.questionForm.option"
         minlength="1"
         maxlength="40"
-        placeholder="Enter option description:"
-        autofocus/>
+        placeholder="Enter new option description:"/>
+        <button ng-click="questionModal.createNewOption(questionOption.$valid)">Add option</button>
         <div
-        ng-messages="questionModal.questionForm.option.$error"
+        ng-messages="questionModal.form.option.$error"
         class="alert-form">
           <span
           ng-message="minlength">
@@ -84,15 +75,29 @@
           Option is too long!
           </span>
         </div>
-        <button
-        ng-click="addOption(questionModal.questionForm.option.$valid)"></button>
+        <button type="button"
+        class="btn btn-lg btn-primary"
+        aria-haspopup="true"
+        aria-expanded="false">Click to dropdown options
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li
+          ng-repeat="opt in questionModal.optionsDropdown"
+          ng-class="{'active': opt.active}">
+            <a
+            ng-click="questionModal.toggleOptionActivity(opt)">
+              {{opt.text}}
+            </a>
+          </li>
+        </ul>
       </div>
 
       <button
       class="btn btn-default"
       type=submit
-      ng-disabled="!(login.loginForm.$valid)">
-      Create New Question
+      ng-disabled="!(questionModal.form.$valid)">
+        <span ng-if="questionModal.currentQuestion">Finish Editing</span>
+        <span ng-if="!questionModal.currentQuestion">Create new option</span>
       </button>
 
     </fieldset>

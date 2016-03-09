@@ -1,66 +1,79 @@
-'use strict';
 
-angular
+(function() {
+  
+  'use strict';
+
+  angular
   .module("interview.components")
   .factory("dataModel", dataModel)
 
-dataModel.$inject = ["UserModel", "requestUser"];
+  dataModel.$inject = ["UserModel", "requestUser"];
 
 
-function dataModel(UserModel, requestUser) {
+  function dataModel(UserModel, requestUser) {
 
-  var service = this;
+    // Sprawdzic jak to jesst instancjonowane, ew. var service - this;
+    var data = {};
 
-  service.pickedQuestions = [];
-  service.pickedCategories = [];
-  service.userData = {};
+    data.pickedQuestions = [];
+    data.pickedCategories = [];
+    data.userData = {};
 
-  // TODO: Czy ta funkcja wewnatrz dziala jak promise?
-  service.fetchData = function() {
-    requestUser.query({user: UserModel.getCurrentUser}, function(data) {
-      // TODO: koniecznie sprawdzic, w jakim formacie zwroci te dane
-      service.userData["userQuestions"] = data[0];
-      serice.userData["userCategories"] = data[1];
-    });
+
+    // TODO: Czy ta funkcja wewnatrz dziala jak promise?
+    data.fetchData = function() {
+      requestUser.query({user: UserModel.getCurrentUser}, function(data) {
+        // TODO: koniecznie sprawsdzic, w jakim formacie zwroci te dane
+        data.userData["userQuestions"] = data[0];
+        serice.userData["userCategories"] = data[1];
+      });
+    }
+
+    data.appendQuestion = function(question) {
+      data.pickedQuestions.append(question);
+    }
+
+    data.detachQuestion = function(question) {
+      _.remove(data.pickedQuestions, function(pq) {
+        return question === pq;
+      })
+    }
+
+    data.getQuestion = function(question) {
+      return _.find(data.pickedQuestions, function(pq) {
+        return question === pq;
+      })
+    }
+
+    data.questionCount = function() {
+      return data.pickedQuestions.length;
+    }
+
+
+    data.isPickedQuestion = function(question) {
+      return _.find(data.pickedQuestions, function(q) {
+        return q === question;
+      })
+    };
+
+    data.resetData = function() {
+      data.pickedQuestions.length = 0;
+      data.pickedCategories.length = 0;
+    }
+
+    return data;
+
+    // Sprawdzic czy tak to dziala poprawnie
+    // return  {
+    //   fetchData: fetchData,
+    //   appendQuestion: appendQuestion,
+    //   detachQuestion: detachQuestion,
+    //   getQuestion: getQuestion,
+    //   questionCount: questionCount,
+    //   isPickedQuestion: isPickedQuestion,
+    //   resetData: resetData
+    // }
+
   }
 
-  service.appendQuestion = function(question) {
-    service.pickedQuestions.append(question);
-  }
-
-  service.detachQuestion = function(question) {
-    _.remove(service.pickedQuestions, function(pq) {
-      return question === pq;
-    })
-  }
-
-  service.getQuestion = function(question) {
-    return _.find(service.pickedQuestions, function(pq) {
-      return question === pq;
-    })
-  }
-
-  service.questionCount = function() {
-    return service.pickedQuestions.length;
-  }
-
-
-  service.isPickedQuestion = function(question) {
-    return _.find(service.pickedQuestions, function(q) {
-      return q === question;
-    })
-  };
-
-  service.resetData = function() {
-    service.pickedQuestions.length = 0;
-    service.pickedCategories.length = 0;
-  }
-
-  return  {
-    prepareData: prepareData,
-    appendQuestion: appendQuestion,
-    detachQuestion: detachQuestion,
-    resetData: resetData
-  }
-
-}
+}());

@@ -8,27 +8,41 @@
 
   CategoryController.$inject = ["DataModel"]
 
-  function CategoryController() {
+  function CategoryController(appendResource, markAsEdited, CurrentCategory) {
 
       var categoryModal = this;
 
-      categoryModal.addCategory = function(isValid) {
-        if(isValid) {
-          // TODO: Jesli nie podam parametru questions, request bedzie mial forme user/questions?
+      categoryModal.formCategory = {
+        description: ''
+      }
 
+      // dodaj do tablicy
+      function resetForm() {
+        categoryModal.formCategory.description = ''
+      }
+
+      //  TODO: jesli stateFlag, zainicjuj forma wlasciwosciami przekazanego pytania
+      function initForm() {
+        if(CurrentCategory) {
+          categoryModal.formQuestion.description = currentQuestion.description;
         }
       }
 
-
-      // TODO: do tablicy DataModel.pickedCategories dodawac nowe obiekty, majace key: ID edytowanej kategorii oraz value: nazwa kategorii po edycji, \
-      // tak zeby potem mozna sprwdzac otrzymane z firebase kategorie z kategoriami, ktore ulegly edycji
-      categoryModal.editResource = function() {
-        if(categoryModal.isEditingCategory) {
-
+      categoryModal.finish = function(isValid) {
+        if(isValid && categoryModal.currentCategory) {
+          markAsEdited(categoryModal.formCategory)
         }
-        else if(categoryModal.isEditingQuestion) {
-
+        else if(isValid && !categoryModal.CurrentCategory) {
+          appendResource(categoryModal.formCategory);
         }
+        resetForm();
+      }
+
+      InitForm();
+
+
+      return {
+        finish: finish
       }
 
   }

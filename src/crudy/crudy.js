@@ -1,6 +1,8 @@
 (function() {
 
   // TODO: oddzielic funkcjonalnosc zwiazana z przechowywaniem info od funkcji interfejsu
+  // TODO: przekazywac do modali currentCategory/Question, pamietac o zerowaniu tych wartosci koniecznie bo inaczej kapa
+
 
   angular
     .module("interviewApp")
@@ -9,7 +11,7 @@
     .filter("byName", nameFilter)
     .filter("byCategory", categoryFilter)
 
-   CrudyController.$inject = ["$scope", "DataModel", "UserModel", "requestCategoriesService", "requestQuestionsService", "mgcrea.ngStrap"];
+   CrudyController.$inject = ["CrudyModel", "DataModel", "UserModel", "requestCategoriesService", "requestQuestionsService", "mgcrea.ngStrap"];
    CrudyConfig.$inject = ['$stateProvider', "DataModel"];
    checkData.$inject = ["UserModel"];
    checkAuth.$inject = ['Auth'];
@@ -60,8 +62,8 @@
     return Auth.$requireAuth();
   }
 
-  function checkData(UserModel) {
-    return UserModel.UserData !== null && UserModel.pickedQuestions.length === 0 && UserModel.pickedCategories.length === 0;
+  function checkData(DataModel) {
+    return DataModel.UserData !== null && DataModel.pickedQuestions.length === 0 &&DataModel.pickedCategories.length === 0;
   }
 
   function sendCategories() {
@@ -89,14 +91,7 @@
     var changedQuestions = [],
       userQuestions = UserModel.UserData["userQuestions"];
 
-      DataModel.pickedCategories.forEach(function(pickedQ) {
-      for(qId in userQuestions) {
-          if(qId === pickedQ.id && userQuestions[qId] === pickedQ.name) {
-            changedQuestions.push(pickedQ);
-            break;
-          }
-        }
-      });
+s
 
       if(changedQuestions.length > 0) {
           changedQuestions.forEach(function(changedQ) {
@@ -107,24 +102,20 @@
 
     // TODO: Proste sprawdzenie po property - wczesniej koncept z enkapsulacja w innym obiekcie, ktory bylby oznaczony, ze jest kategoria/pytaniem
   function createResources() {
-  crudy.newResources.forEach(function(newRes) {
-    if(newRes.hasOwnProperty("selfCategories")) {
-      requestQuestionsService.save({userID: UserModel.getCurrentUser, questionID: newRes.id}, newRes);
-    }
-    else {
-      requestCategoriesService.save({userID: UserModel.getCurrentUser, categoryID: newRes.id}, newRes);
-    }
-  })
+    crudy.newResources.forEach(function(newRes) {
+      if(newRes.hasOwnProperty("selfCategories")) {
+        requestQuestionsService.save({userID: UserModel.getCurrentUser, questionID: newRes.id}, newRes);
+      }
+      else {
+        requestCategoriesService.save({userID: UserModel.getCurrentUser, categoryID: newRes.id}, newRes);
+      }
+    })
   }
 
-  function CrudyController($scope, DataModel, UserModel, requestCategoriesService, requestQuestionsService, $modal) {
+  function CrudyController(CrudyModel, DataModel, UserModel, requestCategoriesService, requestQuestionsService, $modal) {
 
-    var crudy = $scope;
+    var crudy = this;
 
-    crudy.currentCategory = null;
-    crudy.currentQuestion = null;
-
-    crudy.newResources = [];
 
     crudy.setCurrentCategory = function(cat) {
       crudy.currentCategory = cat;
@@ -138,33 +129,37 @@
       crudy.newResources.push(resource);
     }
 
+    // TODO: Proste sprawdzenie po property - wczesniej koncept z enkapsulacja w innym obiekcie, ktory bylby oznaczony, ze jest kategoria/pytaniem
     crudy.markAsEdited = function(resource) {
       if(resource.hasOwnProperty("selfCategories")) {
-        requestQuestionsService.delete({userID: UserModel.getCurrentUser, questionID: resource})
+        DataModel.pickedQuestions.push(resource);
       }
       else  {
-        requestCategoriesService.delete({userID: UserModel.getCurrentUser, categoryID: resource})
+        DataModel.pickedCategories.push(resource);
       }
     }
 
     crudy.QuestionModal = $modal({
         show: true,
-        template: "./modals/question/question.html",
+        templateUrl: "src/crudy/modals/question/question.html",
         controller: "CategoryModalCtrl",
         controllerAs: "categoryModal",
         locals: {
           "appendResource": crudy.appendResource,
-          "currentQuestion": crudy.currentQuestion
+          "markAsEdited": crudy.markAsEdited,
+          "currentQuestion": crudy.currentQuestion,
+          "possibleCategories": DataModel.userData['userCategories']
         }
     })
 
     crudy.CategoryModal = $modal({
         show: true,
-        template: "./modals/category/category.html",
+        templateUrl: "src/crudy/modals/category/category.html",
         controller: "QuestionModalCtrl",
         controllerAs: "questionModal",
         locals: {
           "appendResource": crudy.appendResource,
+          "markAsEdited": crudy.markAsEdited,
           "currentCategory": crudy.currentCategory
         }
     })
@@ -212,9 +207,15 @@
       $state.go("generate");
     }
 
-    return {
-
-    }
+    return crudy;
+    // return {
+    //   // finishSession: finishSession,
+    //   // deleteResource: deleteResource,
+    //   // showCategoryModal: showCategoryModal,
+    //   // showQuestionModal: showQuestionModal,
+    //   // setCurrentQuestion: setCurrentQuestion,
+    //   // setCurrentCategory: setCurrentCategory
+    // }
 
   }
 
