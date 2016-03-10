@@ -1,6 +1,6 @@
 
 (function() {
-  
+
   'use strict';
 
   angular
@@ -16,7 +16,6 @@
     var data = {};
 
     data.pickedQuestions = [];
-    data.pickedCategories = [];
     data.userData = {};
 
 
@@ -58,7 +57,6 @@
 
     data.resetData = function() {
       data.pickedQuestions.length = 0;
-      data.pickedCategories.length = 0;
     }
 
     return data;

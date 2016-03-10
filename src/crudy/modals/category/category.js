@@ -6,9 +6,9 @@
     .module("interviewApp")
     .controller("CategoryModalCtrl", CategoryController);
 
-  CategoryController.$inject = ["DataModel"]
+  CategoryController.$inject = ["CrudyModel"]
 
-  function CategoryController(appendResource, markAsEdited, CurrentCategory) {
+  function CategoryController(CrudyModel) {
 
       var categoryModal = this;
 
@@ -29,11 +29,11 @@
       }
 
       categoryModal.finish = function(isValid) {
-        if(isValid && categoryModal.currentCategory) {
-          markAsEdited(categoryModal.formCategory)
+        if(isValid && CrudyModel.currentCategory) {
+          CrudyModel.markAsEdited(categoryModal.formCategory)
         }
-        else if(isValid && !categoryModal.CurrentCategory) {
-          appendResource(categoryModal.formCategory);
+        else if(isValid && !CrudyModel.CurrentCategory) {
+          CrudyModel.appendResource(categoryModal.formCategory);
         }
         resetForm();
       }

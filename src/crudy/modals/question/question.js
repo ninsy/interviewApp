@@ -6,17 +6,20 @@
     .module("interviewApp")
     .controller("QuestionModalCtrl", QuestionController);
 
-  QuestionController.$inject = ["DataModel", "currentQuestion"]
+  QuestionController.$inject = ["CrudyModel", "currentQuestion"]
 
-  function QuestionController(appendResource, markAsEdited, currentQuestion, possibleCategories) {
+  function QuestionController(CrudyModel, possibleCategories) {
 
       var questionModal = this;
 
       // TODO: Tablice z AKTYWNYMI opcjami/kategoriami, sam obiekt przesylany przez request
+      // TODO: do currentQuestion - dowiazac informacje z tego forma
       questionModal.formQuestion = {
           description: "",
           selfCategories: [],
-          options: []
+          options: [],
+          sessionsAgo: 0,
+          recentlyHasBeen: 1
         };
 
       // TODO: TAblice z wzystkimi mozliwymi opcjami/kategoriami

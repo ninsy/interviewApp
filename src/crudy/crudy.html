@@ -1,6 +1,37 @@
 <div class="wrapper-crudy">
-  <div class="crudy-windows">
-    <div class="category-window">
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+        data-target="#crudy-options" aria-expanded="false">
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="crudy-options">
+        <ul class="nav navbar-nav">
+          <li class="col-sm-12 col-lg-6"
+              ng-class="{'active': crudy.displayCategories}"
+              ng-click="crudy.toggleView()"
+            <a>Categories</a>
+          </li>
+          <li "col-sm-12 col-lg-6"
+              ng-class="{'active': crudy.displayQuestions}"
+              ng-click="crudy.toggleView()"
+              data-match-route="crudy.categories.html">
+            <a>Questions</a>
+          </li>
+        </ul>
+    </div>
+  </nav>
+
+  <div class="filter-window">
+
+  </div>
+
+  <categories ng-if="crudy.displayCategories"></categories>
+  <questions ng-if="crudy.displayQuestions"></questions>
 
 
       <div class="list-frame">
@@ -43,6 +74,4 @@
     </div>
     <div class="question-window">
 
-    </div>
-  </div>
 </div>

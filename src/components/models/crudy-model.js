@@ -1,5 +1,3 @@
-
-
 (function() {
 
   "use strict";
@@ -15,124 +13,135 @@
   function CrudyModel(DataModel, UserModel, requestQuestionsService, requestCategoriesService ) {
 
     var data = {
-
+      sendStuff: sendStuff,
+      appendResource: appendResource,
+      markAsEdited: markAsEdited,
+      setCurrentCategory: setCurrentCategory,
+      setCurrentQuestion: setCurrentQuestion
     },
     currentCategory = null,
     currentQuestion = null,
     newResources = [],
-    accessedResourced = []; // tablica dla rzeczy, ktore zostaly poddane edycji, ale
+    accessedQuestions = [],
+    accessedCategories = [],
+    editedQuestions = [],
+    editedCategories = [];
 
     return data;
 
-    function sendCategories() {
-        var changedCategories = [],
-          userCats = UserModel.UserData["userCategories"];
-
-        DataModel.pickedCategories.forEach(function(pickedCat) {
-          for(catId in userCats) {
-            if(catId === pickedCat.id && userCats[catId] == pickedCat.name) {
-              changedCategories.push(pickedCat);
-              break;
-            }
-          }
-        });
-
-        if(changedCategories.length > 0) {
-            changedCategories.forEach(function(changedCat) {
-              requestCategoriesService.updateCategory({user: UserModel.getCurrentUser, category: changedCat.id});
-            });
-        }
+    function sendStuff() {
+      postResources();
+      checkForChanges();
+      updateResources();
+      resetData();
     }
 
-    // SPRAWDZIC POPRAWNOSC DZIALANIA
-    // CHECK FOR DIFFERENCES MOZNA SPROBOWAC UZYC NA KAZDYM STOPNIU, EW WYWOLAC REKURSYWNIE
-    function checkDifferences(userCats, editedCats) {
-
-      var greater = null, lesser = null, userCatsLen, editedCatsLen;
-
-      if(Object.prototype.toString.call(userCats) === '[object Array]') {
-        userCatsLen = userCats.length;
-        editedCatsLen = editedCats.length;
-      }
-      else if(Object.prototype.toString.call(userCats) === "[object Object]") {
-        userCatsLen = Object.keys(userCats).length;
-        editedCatsLen = Object.keys(editedCats).length;
-      }
-      else throw new Error('Wrong type passed');
-
-      if(editedCatsLen >= userCatsLen) {
-        greater = editedCats;
-        lesser = userCats
-      }
-      else {
-        greater = userCats;
-        lesser = editedCats;
-      }
-
-      Array.prototype.forEach.call(greater, function(el, i) {
-        if(el !== lesser[i]) return false;
-      })
-      return true;
+    function resetData() {
+      setCurrentCategory(null);
+      setCurrentQuestion(null);
+      newResources.length = 0;
+      accessedQuestions.length = 0;
+      accessedCategories.length = 0;
+      editedQuestions.length = 0;
+      editedCategories.length = 0;
     }
 
-    function iterateThrough(userQuestions) {
-
-      userQuestions.forEach(function(el, i) {
-        accessedResourced
-      })
-    }
-
-    function sendQuestions() {
-
-      // TODO: ULTRA WAZNE!!!
-      // Dodatkowo funcka iterateThrough, ktora przeleci po kazdym potencjalnie zmienionym pytaniu,
-      // dla kazdego tego pytania sprawdzi czy sa roznice funkcja checkDifferences
-
-      var userQuestions = UserModel.UserData["userQuestions"],
-        changedQuestions = [];
-
-                if(pickedQ[prop] !== qId[prop]) {
-                  changedQuestions.push(pickedQ);
-                  //break;
-                }
-
-
-        if(changedQuestions.length > 0) {
-            changedQuestions.forEach(function(changedQ) {
-              requestQuestionsService.updateQuestion({user: UserModel.getCurrentUser, question: changedQ.id});
-            });
-        }
-    }
-
-    function createResources() {
-      crudy.newResources.forEach(function(newRes) {
-        if(newRes.hasOwnProperty("selfCategories")) {
-          requestQuestionsService.save({userID: UserModel.getCurrentUser, questionID: newRes.id}, newRes);
-        }
-        else {
-          requestCategoriesService.save({userID: UserModel.getCurrentUser, categoryID: newRes.id}, newRes);
-        }
-      })
-    }
-
-    crudy.setCurrentCategory = function(cat) {
-      crudy.currentCategory = cat;
-    }
-
-    crudy.setCurrentQuestion = function(q) {
-      crudy.currentQuestion = q;
-    }
-
-    crudy.appendResource = function(resource) {
-      crudy.newResources.push(resource);
-    }
-
-    crudy.markAsEdited = function(resource) {
+    function deleteResource(resource) {
       if(resource.hasOwnProperty("selfCategories")) {
-        DataModel.pickedQuestions.push(resource);
+        requestQuestionsService.delete({userID: UserModel.getCurrentUser, questionID: resource["id"]})
       }
       else  {
-        DataModel.pickedCategories.push(resource);
+        requestCategoriesService.delete({userID: UserModel.getCurrentUser, categoryID: resource["id"]})
+      }
+    }
+
+    function postResources() {
+      newResources.forEach(function(newRes) {
+        if(newRes.hasOwnProperty("selfCategories")) {
+          requestQuestionsService.save({userID: UserModel.getCurrentUser}, newRes);
+        }
+        else {
+          requestCategoriesService.save({userID: UserModel.getCurrentUser}, newRes);
+        }
+      })
+    }
+
+    function updateResources() {
+      if(editedCategories.length > 0) {
+        editedCategories.forEach(function(changedCat) {
+          requestCategoriesService.updateCategory({user: UserModel.getCurrentUser, categoryID: changedCat["id"]}, changedCat["data"]);
+        });
+      }
+      if(editedQuestions.length > 0) {
+        editedQuestions.forEach(function(changedQ) {
+          requestQuestionsService.updateQuestion({user: UserModel.getCurrentUser, questionID: changedQ['id']}, changedQ["data"]);
+        });
+      }
+    }
+
+    function checkForChanges() {
+      if(accessedCategories.length > 0) {
+        iterateThrough(UserModel.UserData["userCategories"], accessedCategories)
+      }
+      if(accessedQuestions.length > 0) {
+        iterateThrough(UserModel.UserData["userQuestions"], accessedQuestions)
+      }
+    }
+
+    function compareItems(uItemId, aItemId, uItem, aItem) {
+      if(uItemId === aItemId) {
+        if(_.isEqual(uItem, aItem) === false) {
+          return true
+        }
+      }
+      return false;
+    }
+
+    // TODO: POWINNO POPRAWNIE WRZUCAC DO TABLICY OBJEKTY, Z JEDNYM PROPERTY (idPytania), KTOREGO WARTOSCIA JEST ODPOWIADAJACY OBIEKT PYTANIA
+    //       CHODZI O TO_BE_PUSHED
+    function iterateThrough(userStuff, accessedStuff) {
+
+      _.forEach(accessedStuff, function(userItemId, userItem) {
+        _.forEach(userStuff, function(accessedItemId, accessedItem) {
+
+          if(compareItems(userItemId, accessedItemId, userItem , accessedItem)) {
+
+            var toBePushed = {
+              id: accessedItemId,
+              data: accessedItem
+            };
+
+            if(accessedItem.hasOwnProperty("selfCategories")) {
+              editedQuestions.push(toBePushed);
+            }
+            else {
+              editedCategories.push(toBePushed);
+            }
+            return;
+          }
+
+        });
+      });
+    }
+
+    function setCurrentCategory(cat) {
+      currentCategory = cat;
+    }
+
+    function setCurrentQuestion(q) {
+      currentQuestion = q;
+    }
+
+    function appendResource(resource) {
+      newResources.push(resource);
+    }
+
+    function markAsEdited(resource) {
+      if(resource.hasOwnProperty("selfCategories")) {
+        accessedQuestions.push(resource);
+      }
+      else  {
+        accessedCategories.push(resource);
       }
     }
 
