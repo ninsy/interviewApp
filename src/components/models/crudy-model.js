@@ -124,25 +124,40 @@
       });
     }
 
+    // TODO: Po wprowadzeniu preParsingu, teraz powinno mozna tak bez problemu zrobic.
     function setCurrentCategory(cat) {
-      currentCategory = cat;
+      // currentCategory["id"] = Object.keys(cat)[0];
+      // currentCategory["data"] = cat;
+      currentCategory = angular.copy(cat)
     }
 
+    // TODO: Kluczem jest ID, sprawdzic, czy poprawnie przypisywane
     function setCurrentQuestion(q) {
-      currentQuestion = q;
+    //   currentQuestion["id"] = Object.keys(q)[0];
+    //   currentQuestion["data"] = q;
     }
 
     function appendResource(resource) {
+      if(resource.hasOwnProperty("selfCategories")) {
+        resource["recentlyHasBeen"] = 1;
+        resource["sessionsAgo"] = 0;
+      }
       newResources.push(resource);
     }
 
     function markAsEdited(resource) {
+
+      var toBePushed = { };
+
       if(resource.hasOwnProperty("selfCategories")) {
-        accessedQuestions.push(resource);
+        toBePushed["id"] = currentQuestion["id"];
       }
       else  {
-        accessedCategories.push(resource);
+        toBePushed["id"] = currentCategory["id"];
       }
+      toBePushed["data"] = resource["data"];
+      accessedQuestions.push(resource);
+      setCurrentQuestion(null);
     }
 
   }

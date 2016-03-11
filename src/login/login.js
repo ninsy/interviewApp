@@ -19,40 +19,17 @@ function loginConfig($stateProvider) {
 }
 
 function loginController() {
-  var login = this;
 
-  var formData = {
-    email: login.loginForm.email,
-    pass: login.loginForm.pass
-  }
+  var login = this,
+      formData = {
+        email: login.loginForm.email,
+        pass: login.loginForm.pass
+      }
 
-  function register() {
-    UserModel.register(formData)
-      .then(logIn)
-      .catch(onError)
-      .finally(onCompletion)
-  }
+  login.submit = submit;
+  login.reset = reset;
 
-  function logIn() {
-    UserModel.login(formData)
-      .then(onSuccess)
-      .catch(onError)
-      .finally(onCompletion)
-  }
-
-  function onSuccess(result) {
-    $state.go("boards");
-  }
-
-  function onError(error) {
-    login.error = error.reason;
-  }
-
-  function onCompletion() {
-    login.reset();
-  }
-
-  login.submit = function(isValid) {
+  function submit(isValid) {
     if(isValid) {
 
       if(login.loginForm.register) {
@@ -64,9 +41,37 @@ function loginController() {
     }
   }
 
-  login.reset = function() {
+  function reset() {
     login.loginForm.email = ''
     login.loginForm.pass = ''
     login.loginForm.register = false;
   }
+
+////////////////////////////////////////////////////////////
+function logIn() {
+  UserModel.login(formData)
+  .then(onSuccess)
+  .catch(onError)
+  .finally(onCompletion)
+}
+function onCompletion() {
+  login.reset();
+}
+function onError(error) {
+  login.error = error.reason;
+}
+function onSuccess(result) {
+  $state.go("boards");
+}
+  function register() {
+    UserModel.register(formData)
+      .then(logIn)
+      .catch(onError)
+      .finally(onCompletion)
+  }
+
+
+
+
+
 }

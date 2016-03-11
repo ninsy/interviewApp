@@ -11,7 +11,7 @@
     .filter("byName", nameFilter)
     .filter("byCategory", categoryFilter)
 
-   CrudyController.$inject = ["CrudyModel", "DataModel", "UserModel", "requestCategoriesService", "requestQuestionsService", "mgcrea.ngStrap"];
+   CrudyController.$inject = ["CrudyModel", "DataModel"];
    CrudyConfig.$inject = ['$stateProvider', "DataModel"];
    checkData.$inject = ["UserModel"];
    checkAuth.$inject = ['Auth'];
@@ -55,6 +55,18 @@
           "UserData": checkData
         }
       })
+        .state("crudy.categories", {
+          url: "/crudy/categories",
+          templateUrl: "crudy/categories-window.html",
+          controller: "categoriesCtrl",
+          controllerAs: "catCtrl"
+        })
+        .state("crudy.questions", {
+          url:"/crudy/questions",
+          templateUrl: "crudy/questions-window.html",
+          controller: "questionsCtrl",
+          controllerAs: "queCtrl"
+        })
   }
 
   function checkAuth(Auth) {
@@ -66,73 +78,13 @@
   }
 
 
-  function CrudyController(CrudyModel, DataModel, UserModel, requestCategoriesService, requestQuestionsService, $modal) {
+  function CrudyController(CrudyModel, DataModel) {
 
     var crudy = this;
 
-    crudy.displayCategories = false;
-    crudy.displayQuestions = true;
+    crudy.finishSession = finishSession;
 
-    crudy.toggleView = function() {
-      if(crudy.displayCategories) {
-        crudy.displayCategories = false;
-        crudy.displayQuestions = true;
-      }
-      else {
-        crudy.displayCategories = true;
-        crudy.displayQuestions = false;
-      }
-    }
-
-    crudy.QuestionModal = $modal({
-        show: true,
-        templateUrl: "src/crudy/modals/question/question.html",
-        controller: "CategoryModalCtrl",
-        controllerAs: "categoryModal",
-        locals: {
-          "CrudyModel": CrudyModel,
-          "possibleCategories": DataModel.userData['userCategories']
-        }
-    })
-
-    crudy.CategoryModal = $modal({
-        show: true,
-        templateUrl: "src/crudy/modals/category/category.html",
-        controller: "QuestionModalCtrl",
-        controllerAs: "questionModal",
-        locals: {
-          "CrudyModel": CrudyModel
-        }
-    })
-
-    crudy.addQuestion = function() {
-      showCategoryModal();
-    }
-
-    crudy.editQuestion = function(question) {
-      CrudyModel.setCurrentQuestion(question);
-      showCategoryModal();
-    }
-
-    function showCategoryModal() {
-      CategoryModal.$promise.then(CategoryModal.show);
-    };
-
-    function hideCategoryModal() {
-      CategoryModal.$promise.then(CategoryModal.hide);
-    };
-
-    crudy.showQuestionModal = function() {
-      QuestionModal.$promise.then(QuestionModal.show);
-    };
-
-    crudy.hideQuestionModal = function() {
-      QuestionModal.$promise.then(QuestionModal.hide);
-    };
-
-
-    crudy.finishSession = function() {
-
+    function finishSession() {
       CrudyModel.sendStuff();
       $state.go("generate");
     }

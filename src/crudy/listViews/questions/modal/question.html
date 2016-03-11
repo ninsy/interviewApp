@@ -4,7 +4,6 @@
   name="questionModal.form"
   class="modal-form"
   ng-submit="questionModal.finish(questionModal.questionForm.$valid)"
-  ng-if="questionModal.currentQuestion"
   novalidate >
 
     <fieldset>
@@ -45,7 +44,7 @@
          ng-model="questionModal.formQuestion['selfCategories']"
          data-html="1"
          data-multiple="1"
-         bs-options="icon.value as icon.label for icon in questionModal.selfCatIcons"
+         bs-options="icon.value as icon.label for icon in questionModal.selectSelfCatIcons"
          bs-select>Check categories
           <br>
           <span class="caret">(Multiple choice)</span>
@@ -62,7 +61,9 @@
         minlength="1"
         maxlength="40"
         placeholder="Enter new option description:"/>
-        <button ng-click="questionModal.createNewOption(questionOption.$valid)">Add option</button>
+        <button
+        ng-click="questionModal.createNewOption(questionOption.$valid)">
+        Add option</button>
         <div
         ng-messages="questionModal.form.option.$error"
         class="alert-form">
@@ -96,8 +97,7 @@
       class="btn btn-default"
       type=submit
       ng-disabled="!(questionModal.form.$valid)">
-        <span ng-if="questionModal.currentQuestion">Finish Editing</span>
-        <span ng-if="!questionModal.currentQuestion">Create new option</span>
+        <span>Finish</span>
       </button>
 
     </fieldset>

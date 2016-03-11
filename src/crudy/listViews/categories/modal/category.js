@@ -23,7 +23,7 @@
 
       //  TODO: jesli stateFlag, zainicjuj forma wlasciwosciami przekazanego pytania
       function initForm() {
-        if(CurrentCategory) {
+        if(CrudyModel.CurrentCategory) {
           categoryModal.formQuestion.description = currentQuestion.description;
         }
       }
@@ -35,6 +35,7 @@
         else if(isValid && !CrudyModel.CurrentCategory) {
           CrudyModel.appendResource(categoryModal.formCategory);
         }
+        this.hide();
         resetForm();
       }
 
@@ -44,7 +45,7 @@
       return {
         finish: finish
       }
-
+      
   }
 
 })();

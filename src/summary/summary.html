@@ -1,5 +1,8 @@
 <div class="summary">
-  <ul class="picked-questions">
+
+  <category-bar></category-bar>
+
+  <ul class="picked-questions" >
     <li ng-repeat="question in DataModel.pickedQuestions | orderBy: '-recentlyHasBeen' ">
         <button
         ng-click="creator.editQuestion(question)"></button>
@@ -10,7 +13,6 @@
         <input
         type="checkbox"
         ng-model="checked"
-        ng-disabled="checked"
         ng-click="creator.markAsAsked(question)"></button>
     </li>
   </ul>

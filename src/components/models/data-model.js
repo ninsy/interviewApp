@@ -1,4 +1,3 @@
-
 (function() {
 
   'use strict';
@@ -13,64 +12,127 @@
   function dataModel(UserModel, requestUser) {
 
     // Sprawdzic jak to jesst instancjonowane, ew. var service - this;
-    var data = {};
-
-    data.pickedQuestions = [];
-    data.userData = {};
-
-
-    // TODO: Czy ta funkcja wewnatrz dziala jak promise?
-    data.fetchData = function() {
-      requestUser.query({user: UserModel.getCurrentUser}, function(data) {
-        // TODO: koniecznie sprawsdzic, w jakim formacie zwroci te dane
-        data.userData["userQuestions"] = data[0];
-        serice.userData["userCategories"] = data[1];
-      });
-    }
-
-    data.appendQuestion = function(question) {
-      data.pickedQuestions.append(question);
-    }
-
-    data.detachQuestion = function(question) {
-      _.remove(data.pickedQuestions, function(pq) {
-        return question === pq;
-      })
-    }
-
-    data.getQuestion = function(question) {
-      return _.find(data.pickedQuestions, function(pq) {
-        return question === pq;
-      })
-    }
-
-    data.questionCount = function() {
-      return data.pickedQuestions.length;
-    }
-
-
-    data.isPickedQuestion = function(question) {
-      return _.find(data.pickedQuestions, function(q) {
-        return q === question;
-      })
-    };
-
-    data.resetData = function() {
-      data.pickedQuestions.length = 0;
-    }
+    var data = {
+      fetchData: fetchData,
+      appendQuestion: appendQuestion,
+      detachQuestion: detachQuestion,
+      questionCount: questionCount,
+      getQuestion: getQuestion,
+      isPickedQuestion: isPickedQuestion,
+      resetData: resetData
+    },
+      pickedQuestions = [],  //  TABLICA UZYWANA JEDYNIE PODCZAS TWORZENIA SESJI ORAZ JEJ TRWANIA
+      userData = {
+        categories: [],
+        questions: []
+      };
 
     return data;
 
-    // Sprawdzic czy tak to dziala poprawnie
-    // return  {
-    //   fetchData: fetchData,
-    //   appendQuestion: appendQuestion,
-    //   detachQuestion: detachQuestion,
-    //   getQuestion: getQuestion,
-    //   questionCount: questionCount,
-    //   isPickedQuestion: isPickedQuestion,
-    //   resetData: resetData
-    // }
+      // USER_DATA - EFEKT PREPARSINGU:
+      //
+      // {
+      //   categories: [
+      //     {
+      //       marked: true,
+      //       id: 14322,
+      //       data: {
+      //         description: ...
+      //       }
+      //     }
+      //   ],
+      //   questions: [
+      //     {
+      //       marked: true,
+      //       id: 1231,
+      //       data: {
+      //         selfCats: {
+      //           id1: true,
+      //           id2: false
+      //         },
+      //         options: [ ... ]
+      //       }
+      //     },
+      //     {
+      //       marked: false..
+      //       ...
+      //     }
+      //   ]
+      // }
+    // RESPONSE:
+    // [
+    //   {
+    //     id1: "algo",
+    //     id2: "front",
+    //     ...
+    //   },
+    //   {
+    //     id1: { selfCats, desc, ...},
+    //     id2: { selfCats, desc, ... }
+    //     ...
+    //   }
+    // ]
+
+
+    // TODO: Upewnic sie kolejnosci zwracania, czy zawsze zwraca tak samo
+    function preParse(responseData) {
+      var fetchedQuestions = responseData[1],
+          fetchedCategories = responseData[0],
+          newItemTemplate = {
+                marked: false,
+                id: 0,
+                data: {}
+          }
+
+          _.forEach(fetchedQuestions, function(questionData, questionKeyID) {
+            newItemTemplate.id = questionKeyID;
+            newItemTemplate.data = questionData;
+            userData["userQuestions"].push(newItemTemplate)
+          });
+
+          _.forEach(fetchedCategories, function(categoryData, categoryKeyID) {
+            newItemTemplate.id = categoryKeyID;
+            newItemTemplate.data = categoryData;
+            userData["userCategories"].push(newItemTemplate)
+          })
+    }
+
+
+    // TODO: Czy ta funkcja wewnatrz dziala jak promise?
+    // TODO: koniecznie sprawsdzic, w jakim formacie zwroci te dane - MUSI BYC TABLICA OBIEKTOW
+    function fetchData() {
+      var req = requestUser.query({user: UserModel.getCurrentUser});
+      req.$promise.then(preParse);
+    }
+
+    function appendQuestion(question) {
+      /// TODO: format picked question: {marked: ..., id: ...., data: ....}
+      question.active = true;
+      pickedQuestions.append(question);
+    }
+
+
+    // TODO: ZWERYFIKOWAC POPRAWNE DZIALANIE
+    function detachQuestion(question) {
+      question.active = false;
+      _.remove(pickedQuestions, function(pq) {
+        return question.id === pq.id;
+      })
+    }
+
+    function questionCount() {
+      return pickedQuestions.length;
+    }
+
+    function getQuestion(question) {
+      return _.find(pickedQuestions, function(pq) {
+        return question.id === pq.id;
+      })
+    }
+
+    function resetData() {
+      pickedQuestions.length = 0;
+    }
 
   }
 

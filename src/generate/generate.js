@@ -29,50 +29,41 @@ function GenerateController(UserModel, DataModel,$state) {
   generator.currentCategory = null;
   generator.errorFlag = false;
 
+    prepareData();
 
-    generator.prepareData = function() {
-      DataModel.fetchData()
-    }
-
-    generator.setCategory = function(category) {
-      generator.currentCategory = category;
-    }
-
-    generator.getCategory = function() {
-      return generator.currentCategory;
-    }
-
-    generator.appendQuestion = function(question) {
+    function appendQuestion(question) {
       DataModel.appendQuestion(question)
     }
 
-    generator.resetData = function() {
+    function getCategory() {
+      return generator.currentCategory;
+    }
+
+    function isPicked(question) {
+      return DataModel.getQuestion(question).active;
+    }
+
+    function prepareData() {
+      DataModel.fetchData()
+    }
+
+    function resetData() {
       DataModel.resetData();
     }
 
-    generator.isPicked = function(question) {
-      return DataModel.isPickedQuestion(question)
+    function setCategory(category) {
+      generator.currentCategory = category;
     }
 
-    generator.startSession = function() {
+    function startSession() {
       if(DataModel.questionCount()) {
         $state.go("creator")
       }
       else {
-        // TODO: jesli flaga na true, ustaw ng-messege pod przyciskiem done
         generator.errorFlag = true;
       }
     }
 
-    generator.prepareData();
-
-    return {
-      setCategory: setCategory,
-      getCategory: getCategory,
-      appendQuestion: appendQuestion,
-      resetData: resetData,
-      isPicked: isPicked
-    }
 }
 
 function generateAuthCheck(Auth) {

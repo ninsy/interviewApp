@@ -6,7 +6,7 @@
     .module("interviewApp")
     .controller("QuestionModalCtrl", QuestionController);
 
-  QuestionController.$inject = ["CrudyModel", "currentQuestion"]
+  QuestionController.$inject = ["CrudyModel", "possibleCategories"]
 
   function QuestionController(CrudyModel, possibleCategories) {
 
@@ -18,12 +18,10 @@
           description: "",
           selfCategories: [],
           options: [],
-          sessionsAgo: 0,
-          recentlyHasBeen: 1
         };
 
       // TODO: TAblice z wzystkimi mozliwymi opcjami/kategoriami
-      questionModal.selfCatIcons = [];
+      questionModal.selectSelfCatIcons = [];
       questionModal.optionsDropdown = [];
 
       // TODO: Iteruj po tablicy wszystkich kategorii zawartych w pytaniach uzytkownika,
@@ -32,15 +30,15 @@
       //       nastepnie mozliwosc odhaczania
       function initIcons() {
         possibleCategories.forEach(function(cat) {
-          if(currentQuestion.selfCategories.indexOf(cat)>-1) {
+          if(CrudyModel.currentQuestion.selfCategories.indexOf(cat)>-1) {
             questionModal.formQuestion["selfCategories"].push(cat);
           }
-          questionModal.selfCatIcons.push({
+          questionModal.selectSelfCatIcons.push({
             value: cat.name,
             label: "> " + cat.name
           });
         });
-        currentQuestion.options.forEach(function(option) {
+        CrudyModel.currentQuestion.options.forEach(function(option) {
           questionModal.formQuestion["options"].push(option);
           questionModal.optionsDropdown.push({
             text: option,
@@ -68,17 +66,15 @@
       }
 
       function initForm() {
-        if(currentQuestion) {
-          questionModal.formQuestion.description = currentQuestion.description;
-          questionModal.formQuestion.selfCategories = currentQuestion.selfCategories;
-          questionModal.formQuestion.options = currentQuestion.options;
+        if(CrudyModel.currentQuestion) {
+          questionModal.formQuestion.description = CrudyModel.currentQuestion.description;
+          questionModal.formQuestion.selfCategories = CrudyModel.currentQuestion.selfCategories;
+          questionModal.formQuestion.options = CrudyModel.currentQuestion.options;
         }
       }
 
-
-
       questionModal.toggleOptionActivity = function(option) {
-        if(!option.hasOwnProperty('active') || !option.active) {
+        if(!option.hasOwnProperty('active')) {
           option.active = true;
           addOption(option.text)
         }
@@ -103,10 +99,10 @@
 
       questionModal.finish = function(isValid) {
         if(isValid && questionModal.currentQuestion) {
-          markAsEdited(questionModal.formQuestion);
+          CrudyModal.markAsEdited(questionModal.formQuestion);
         }
         else if(isValid && !questionModal.currentQuestion) {
-          appendResource(questionModal.formQuestion);
+          CrudyModal.appendResource(questionModal.formQuestion);
         }
         // TODO: Sprawdzic czy to zamknie
         this.hide();
@@ -114,6 +110,7 @@
       }
 
       InitForm();
+      initIcons();
 
 
       return {
