@@ -30,47 +30,4 @@
 
   <div ui-view="list-window"></div>
 
-
-
-
-      <div class="list-frame">
-        <h2>Category List</h2>
-        <ul class="category-list">
-          <li ng-repeat="category in DataModel.userData[userCategories]"
-              ng-click="crudy.setCurrentCategory(category)">
-              <button class="glyphicon" ng-class="{
-                  'glyphicon-ok': crudy.isEditingCategory
-                  'glyphicon-remove': !crudy.isEditingCategory
-                  }">
-              </button>
-              <span>{{category.name}}</span>
-              <button class="glyphicon glyphicon-remove"
-                      ng-click="crudy.deleteResource(category)">
-              </button>
-          </li>
-        </ul>
-      </div>
-
-
-      <div class="edit-frame">
-        <h2>Question List</h2>
-        <ul class="category-list">
-          <li ng-if="crudy.currentCategory"
-              ng-repeat="question in DataModel.userData[userQuestions] | crudy.currentCategory in question.selfCategories "
-              ng-click="crudy.setCurrentQuestion(category)">
-              <button class="glyphicon" ng-class="{
-                  'glyphicon-ok': crudy.isEditingQuestion
-                  'glyphicon-remove': !crudy.isEditingQuestion
-                  }">
-              </button>
-              <span>{{category.name}}</span>
-              <button class="glyphicon glyphicon-remove"
-                      ng-click="crudy.deleteResource(question)">
-              </button>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="question-window">
-
 </div>

@@ -20,6 +20,10 @@ function questionsController(CrudyModel, $modal) {
     showQuestionModal();
   }
 
+  function deleteQuestion(question) {
+    CrudyModel.deleteResource(question)
+  }
+
   function showQuestionModal() {
     QuestionModal.$promise.then(QuestionModal.show);
   };

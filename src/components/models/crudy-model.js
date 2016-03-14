@@ -16,6 +16,7 @@
       sendStuff: sendStuff,
       appendResource: appendResource,
       markAsEdited: markAsEdited,
+      deleteResource: deleteResource,
       setCurrentCategory: setCurrentCategory,
       setCurrentQuestion: setCurrentQuestion
     },
@@ -47,7 +48,7 @@
     }
 
     function deleteResource(resource) {
-      if(resource.hasOwnProperty("selfCategories")) {
+      if(resource["data"].hasOwnProperty("selfCategories")) {
         requestQuestionsService.delete({userID: UserModel.getCurrentUser, questionID: resource["id"]})
       }
       else  {
@@ -57,7 +58,7 @@
 
     function postResources() {
       newResources.forEach(function(newRes) {
-        if(newRes.hasOwnProperty("selfCategories")) {
+        if(newRes["data"].hasOwnProperty("selfCategories")) {
           requestQuestionsService.save({userID: UserModel.getCurrentUser}, newRes);
         }
         else {
@@ -101,17 +102,17 @@
     //       CHODZI O TO_BE_PUSHED
     function iterateThrough(userStuff, accessedStuff) {
 
-      _.forEach(accessedStuff, function(userItemId, userItem) {
-        _.forEach(userStuff, function(accessedItemId, accessedItem) {
+      _.forEach(accessedStuff, function(userItem) {
+        _.forEach(userStuff, function(accessedItem) {
 
-          if(compareItems(userItemId, accessedItemId, userItem , accessedItem)) {
+          if(compareItems(userItem["id"], accessedItem["id"], userItem["data"] , accessedItem["data"])) {
 
             var toBePushed = {
-              id: accessedItemId,
-              data: accessedItem
+              id: accessedItem["id"],
+              data: accessedItem["data"]
             };
 
-            if(accessedItem.hasOwnProperty("selfCategories")) {
+            if(accessedItem["data"].hasOwnProperty("selfCategories")) {
               editedQuestions.push(toBePushed);
             }
             else {
@@ -133,14 +134,15 @@
 
     // TODO: Kluczem jest ID, sprawdzic, czy poprawnie przypisywane
     function setCurrentQuestion(q) {
-    //   currentQuestion["id"] = Object.keys(q)[0];
-    //   currentQuestion["data"] = q;
+      //   currentQuestion["id"] = Object.keys(q)[0];
+      //   currentQuestion["data"] = q;
+      currentQuestion = angular.copy(q);
     }
 
     function appendResource(resource) {
-      if(resource.hasOwnProperty("selfCategories")) {
-        resource["recentlyHasBeen"] = 1;
-        resource["sessionsAgo"] = 0;
+      if(resource["data"].hasOwnProperty("selfCategories")) {
+        resource["data"]["recentlyHasBeen"] = 1;
+        resource["data"]["sessionsAgo"] = 0;
       }
       newResources.push(resource);
     }
@@ -149,7 +151,7 @@
 
       var toBePushed = { };
 
-      if(resource.hasOwnProperty("selfCategories")) {
+      if(resource["data"].hasOwnProperty("selfCategories")) {
         toBePushed["id"] = currentQuestion["id"];
       }
       else  {

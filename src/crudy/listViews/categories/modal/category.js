@@ -24,7 +24,7 @@
       //  TODO: jesli stateFlag, zainicjuj forma wlasciwosciami przekazanego pytania
       function initForm() {
         if(CrudyModel.CurrentCategory) {
-          categoryModal.formQuestion.description = currentQuestion.description;
+          categoryModal.formQuestion.description = currentQuestion.data.description;
         }
       }
 
@@ -45,7 +45,7 @@
       return {
         finish: finish
       }
-      
+
   }
 
 })();

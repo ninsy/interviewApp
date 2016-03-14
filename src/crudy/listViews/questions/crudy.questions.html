@@ -1,14 +1,16 @@
 <div class="wrapper-form">
-  <div ng-click="crudy.showCategoryModal();">
-    <button></button>
-    <span></span>
+  <div class="new-item-window">
+    <button ng-click="addQuestion()"><span class="glyphicon glyphicon-pencil"></span></button>
+    <span>{{question['data'].description}}</span>
   </div>
   <ul class="list-stuff">
     <li
       ng-repeat="question in DataModel.userData['userQuestions']">
-      <button></button>
-      <span></span>
-      <button></button>
+      <button class="btn btn-default"
+      ng-click="editQuestion(question)"><span class="glyphicon glyphicon-pencil"></span></button>
+      <span>{{question.data.description}}</span>
+      <button class="btn btn-warning"
+      ng-click='deleteQuestion(question)'><span class="glyphicon glyphicon-remove"></span></button>
     </li>
   </ul>
 </div>

@@ -2,25 +2,34 @@
 
 angular
   .module("interview.components")
-  .service("UserModel", UserModel)
+  .factory("UserModel", UserModel)
 
-userModel.$inject = ["Auth", "DataModel"];
+UserModel.$inject = ["Auth", "$state"];
 
-function UserModel(Auth, DataModel) {
-  var service = this;
+function UserModel(Auth) {
 
 
-    service.currentUser = null;
+  var service = {
+    logout: logout,
+    register: register,
+    login: login,
+    setCurrentUser: setCurrentUser,
+    getCurrentUser: getCurrentUser
+  },
+    currentUser = null;
 
-    service.getCurrentUser = function() {
+  return service;
+
+
+    function getCurrentUser() {
       return currentUser;
     }
 
-    service.setCurrentUser = function(user) {
+    function setCurrentUser(user) {
       currentUser = user;
     }
 
-    service.login = function(user) {
+    function login(user) {
       return Auth.$authWithPassword({
           email: user.email,
           pass: user.pass
@@ -37,7 +46,7 @@ function UserModel(Auth, DataModel) {
       })
     }
 
-    service.register = function(user) {
+    function register(user) {
       return Auth.$createUser({
           email: user.email,
           pass: user.pass
@@ -48,24 +57,17 @@ function UserModel(Auth, DataModel) {
         }
         else {
           console.log('Logged as: ', currentUser)
-          return service.login(user.email, user.pass);
+          return login(user.email, user.pass);
         }
       })
     }
 
-    service.logout = function() {
+    function logout() {
       Auth.$unauth();
-      DataModel.resetData();
-      DataModel.userData = null;
+      // TODO: POWODOWALO CIRCULAR DEPENDENCY
+      // DataModel.resetData();
+      // DataModel.userData = null;
       currentUser = null;
-    }
-
-    return {
-      logout: logout,
-      register: register,
-      login: login,
-      setCurrentUser: setCurrentUser,
-      getCurrentUser: getCurrentUser
     }
 
 }

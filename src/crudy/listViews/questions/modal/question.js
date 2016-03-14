@@ -67,9 +67,9 @@
 
       function initForm() {
         if(CrudyModel.currentQuestion) {
-          questionModal.formQuestion.description = CrudyModel.currentQuestion.description;
-          questionModal.formQuestion.selfCategories = CrudyModel.currentQuestion.selfCategories;
-          questionModal.formQuestion.options = CrudyModel.currentQuestion.options;
+          questionModal.formQuestion.description = CrudyModel.currentQuestion["data"].description;
+          questionModal.formQuestion.selfCategories = CrudyModel.currentQuestion["data"].selfCategories;
+          questionModal.formQuestion.options = CrudyModel.currentQuestion["data"].options;
         }
       }
 

@@ -4,12 +4,12 @@
 
   angular
   .module("interview.components")
-  .factory("dataModel", dataModel)
+  .factory("DataModel", DataModel)
 
-  dataModel.$inject = ["UserModel", "requestUser"];
+  DataModel.$inject = ["UserModel", "requestUser"];
 
 
-  function dataModel(UserModel, requestUser) {
+  function DataModel(UserModel, requestUser) {
 
     // Sprawdzic jak to jesst instancjonowane, ew. var service - this;
     var data = {
@@ -23,8 +23,8 @@
     },
       pickedQuestions = [],  //  TABLICA UZYWANA JEDYNIE PODCZAS TWORZENIA SESJI ORAZ JEJ TRWANIA
       userData = {
-        categories: [],
-        questions: []
+        userCategories: [],
+        userQuestions: []
       };
 
     return data;
@@ -107,14 +107,14 @@
 
     function appendQuestion(question) {
       /// TODO: format picked question: {marked: ..., id: ...., data: ....}
-      question.active = true;
+      question.marked = true;
       pickedQuestions.append(question);
     }
 
 
     // TODO: ZWERYFIKOWAC POPRAWNE DZIALANIE
     function detachQuestion(question) {
-      question.active = false;
+      question.marked = false;
       _.remove(pickedQuestions, function(pq) {
         return question.id === pq.id;
       })

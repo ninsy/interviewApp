@@ -2,14 +2,14 @@
 
 angular
   .module("interviewApp")
-  .config('summaryConfig', creatorConfig)
-  .controller("SummaryCtrl", creatorController);
+  .config('summaryConfig', summaryConfig)
+  .controller("SummaryCtrl", summaryController);
 
-creatorConfig.$inject = ['$stateProvider'];
-creatorController.$inject = ["UserModel", 'DataModel', "requestQuestionsService", "QUESTIONS_CONST"];
-creatorAuthCheck.$inject = ['Auth'];
+summaryConfig.$inject = ['$stateProvider'];
+summaryController.$inject = ["UserModel", 'DataModel', "requestQuestionsService", "QUESTIONS_CONST"];
+summaryAuthCheck.$inject = ['Auth'];
 
-function creatorConfig($stateProvider) {
+function summaryConfig($stateProvider) {
   $stateProvider
     .state("creator", {
       url: "/creator",
@@ -17,12 +17,12 @@ function creatorConfig($stateProvider) {
       controller: "SummaryCtrl",
       controllerAs: "summary",
       resolve: {
-        'currentUser': creatorAuthCheck
+        'currentUser': summaryAuthCheck
       }
     })
 }
 
-function creatorController(UserModel,  DataModel, requestQuestionsService, QUESTIONS_CONST) {
+function summaryController(UserModel,  DataModel, requestQuestionsService, QUESTIONS_CONST) {
 
   var summary = this;
 
@@ -46,6 +46,7 @@ function creatorController(UserModel,  DataModel, requestQuestionsService, QUEST
       reqCount = filtered.length;
 
     updateState(filtered);
+    
     if(questionCount === reqCount) {
       $state.go("/generate");
     }
@@ -81,6 +82,6 @@ function creatorController(UserModel,  DataModel, requestQuestionsService, QUEST
 
 }
 
-function authCheck(Auth) {
+function summaryAuthCheck(Auth) {
   return Auth.$requireAuth();
 }

@@ -48,7 +48,7 @@
       .state("crudy", {
         url: "/crudy",
         templateUrl: "crudy/crudy.html",
-        controller: "CrudyController",
+        controller: "CrudyCtrl",
         controllerAs: "crudy",
         resolve: {
           "CurrentUser": checkAuth,
@@ -88,8 +88,6 @@
       CrudyModel.sendStuff();
       $state.go("generate");
     }
-
-    return crudy;
 
   }
 

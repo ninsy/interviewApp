@@ -2,7 +2,7 @@
 
 angular
   .module('interviewApp')
-  .config('generateConfig', generateConfig)
+  .config(generateConfig)
   .controller('GenerateCtrl', GenerateController );
 
 generateConfig.$inject = ['$stateProvider'];
@@ -13,7 +13,7 @@ function generateConfig($stateProvider) {
   $stateProvider
     .state("generate", {
       url: "/generate",
-      templateUrl: "generate/generate.html",
+      templateUrl: "src/generate/generate.html",
       controller: "GenerateCtrl",
       controllerAs: "generator",
       resolve: {
@@ -28,6 +28,12 @@ function GenerateController(UserModel, DataModel,$state) {
 
   generator.currentCategory = null;
   generator.errorFlag = false;
+
+  generator.startSession = startSession;
+  generator.setCategory = setCategory;
+  generator.resetData = resetData;
+  generator.appendQuestion = appendQuestion;
+  generator.isPicked = isPicked;
 
     prepareData();
 
@@ -57,7 +63,7 @@ function GenerateController(UserModel, DataModel,$state) {
 
     function startSession() {
       if(DataModel.questionCount()) {
-        $state.go("creator")
+        $state.go("summary")
       }
       else {
         generator.errorFlag = true;

@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" ng-app="interviewApp" class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="interviewApp"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,17 +10,16 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../app/bower_components/html5-boilerplate/dist/css/normalize.css">
-  <link rel="stylesheet" href="../app/bower_components/html5-boilerplate/dist/css/main.css">
-  <link rel="stylesheet" href="../app/bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss">
   <link rel="stylesheet" href="../dev/app.css">
   <script src="../app/bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body ng-controller="MainCtrl as main">
 
   <section class="wrapper-app">
-    <nav class="navbar navbar-default">
-      <div class="collapse navbar-collapse"
+    <nav class="navbar navbar-default navbar-right">
+
     </nav>
+
     <div ui-view></div>
   </section>
 
@@ -34,27 +33,29 @@
   -->
   <script src="../app/bower_components/lodash/lodash.js"></script>
   <script src="../app/bower_components/angular/angular.js"></script>
-  <script src="../app/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="../app/bower_components/firebase/firebase.js"></script>
   <script src="../app/bower_components/angularfire/dist/angularfire.min.js"></script>
-  <script src="../app/bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
-  <script src="../app/bower_components/angular-strap/dist/angular-strap.min.js"></script>
   <script src="../app/bower_components/angular-resource/angular-resource.js"></script>
+  <script src="../app/bower_components/angular-strap/dist/angular-strap.js"></script>
+  <script src="../app/bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
+  <script src="../app/bower_components/angular-strap/dist/angular-strap.compat.js"></script>
+  <script src="../app/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 
   <script src="app.js"></script>
-  <script src="components/services/auth-service.js"></script>
+  <script src="components/components.js"></script>
+  <script src="components/models/data-model.js"></script>
   <script src="components/models/user-model.js"></script>
   <script src="components/models/requests-model.js"></script>
-  <script src="components/models/data-model.js-model.js"></script>
-  <script src="components/models/questions-model.js"></script>
+  <script src="components/models/crudy-model.js"></script>
+  <script src="components/services/auth-service.js"></script>
   <script src="login/login.js"></script>
   <script src="generate/generate.js"></script>
-  <script src="creator/creator.js"></script>
-  <script src="creator/crudy/crudy.js"></script>
+  <!-- <script src="summary/summary.js"></script>
+  <script src="crudy/crudy.js"></script> -->
+  <!-- <script src="crudy/listViews/categories/crudy.categories.js"></script>
+  <script src="crudy/listViews/questions/crudy.questions.js"></script>
+  <script src="crudy/listViews/categories/modal/category.js"></script>
+  <script src="crudy/listViews/questions/modal/question.js"></script> -->
 
-
-  <script src="components/version/version.js"></script>
-  <script src="components/version/version-directive.js"></script>
-  <script src="components/version/interpolate-filter.js"></script>
 </body>
 </html>
