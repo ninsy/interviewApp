@@ -1,9 +1,11 @@
-@mixin selectable($bg-color: lighten($primary-jcolor, 10)) {
+@mixin selectable($bg-color: lighten($primary-jcolor), $percent: 5) {
   background-color: $bg-color;
   &:hover {
-    background-color: lighten($bg-color, 10);
+    background-color: darken($bg-color, $percent);
   }
   &.active {
-    background-color: darken($bg-color, 10);
+    background-color: lighten($bg-color, $percent);
   }
 }
+
+// TODO: MIXINY DO WSZELAKICH LIST ITEMOW

@@ -74,6 +74,11 @@
 
     // TODO: Upewnic sie kolejnosci zwracania, czy zawsze zwraca tak samo
     function preParse(responseData) {
+
+      if(responseData === null) {
+        return;
+      }
+
       var fetchedQuestions = responseData[1],
           fetchedCategories = responseData[0],
           newItemTemplate = {
@@ -100,9 +105,8 @@
     // TODO: koniecznie sprawsdzic, w jakim formacie zwroci te dane - MUSI BYC TABLICA OBIEKTOW
 
 
-    // TODO: TUTAJ SIE SYPIE!!!
     function fetchData() {
-      var req = requestUser.query({user: UserModel.getCurrentUser()});
+      var req = requestUser.get({user: UserModel.getCurrentUser()});
       req.$promise.then(preParse);
     }
 

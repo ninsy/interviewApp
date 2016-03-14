@@ -56,7 +56,7 @@ function UserModel(Auth) {
           return error;
         }
         else {
-          console.log('Logged as: ', currentUser)
+          console.log('Logged as: ', authData.uid)
           return login(user.email, user.pass);
         }
       })

@@ -26,7 +26,7 @@
 
   function MainController(UserModel, $state, Auth) {
     var main = this,
-      currentUser = false;
+      currentUser = null;
 
     main.auth = Auth;
 
@@ -38,11 +38,11 @@
 
     main.auth.$onAuth(function (authData) {
       if(authData) {
-        currentUser = true;
+        currentUser = authData.uid;
         UserModel.setCurrentUser(authData.uid);
       }
       else {
-        currentUser = true;
+        currentUser = null;
         UserModel.setCurrentUser(null);
       }
     })
@@ -52,8 +52,6 @@
     $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
       event.preventDefault();
       if(error === "AUTH_REQUIRED") {
-        currentUser = false;
-        
         $state.go("login");
       }
     })

@@ -6,6 +6,13 @@ ol, ul {
   list-style: none;
 }
 
+a{
+  font-weight: bold;
+  &:hover, &:active, &:link {
+    text-decoration: none;
+  }
+}
+
 html {
   min-height: 100%;
 }
@@ -20,6 +27,15 @@ html {
   height: 100%;
   width: 220px;
   background: $secondary-jcolor;
+  ul {
+    padding: 0;
+    margin: 0 auto;
+    li {
+      height: 50px;
+      width: 100%;
+      display: block;
+    }
+  }
 }
 
 .category-sidebar li {
@@ -27,20 +43,11 @@ html {
   display: block;
 }
 
-.active {
-  background-color: darken
-}
-
-nav li {
-  display: inline-block;
-  border: 1px solid $primary-jcolor
-}
-
 body {
   height: 1024px;
   margin: 0 auto;
   padding: 0;
-  background-color: $light-grey;
+  background-color: $primary-jcolor;
 }
 
 form * {
@@ -48,9 +55,19 @@ form * {
 }
 
 .navbar {
+  background-color: $primary-jcolor;
+  border: 0px;
   border-radius: 0;
-  margin-top: -5px;
-  margin-left: -5px;
+  width: 100%;
+  padding-right: 20px;
+  li {
+    @include selectable($primary-jcolor);
+    padding: 5px;
+  }
+}
+
+.navbar-right {
+  margin-right: 0;
 }
 
 .alert {
@@ -64,7 +81,7 @@ form * {
 
 .wrapper {
   &-app {
-    border: 10px solid $primary-jcolor;
+    border: 10px solid $light-grey;
     min-height: 100%;
     padding: 10px;
   }

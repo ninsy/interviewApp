@@ -17,9 +17,15 @@
 
   <section class="wrapper-app container-fluid">
     <nav id="main-navbar" class="navbar navbar-default">
-      <ul ng-if='main.currentUser'>
+      <ul class="nav navbar-nav navbar-right" >
         <li>
-          <a ui-sref="login">Logout</a>
+          <a href="https://github.com/ninsy/interviewApp">GitHub</a>
+        </li>
+        <li>
+          <a href="https://github.com/ninsy/interviewApp">Google</a>
+        </li>
+        <li>
+          <a ng-if="main.currentUser" ng-click="main.logout()">Logout</a>
         </li>
       </ul>
     </nav>
