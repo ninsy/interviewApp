@@ -7,6 +7,7 @@
       'firebase',
       'ngResource',
       'interview.components',
+      "ngMessages",
       'mgcrea.ngStrap'
     ])
     .controller("MainCtrl", MainController)
@@ -24,7 +25,8 @@
   }
 
   function MainController(UserModel, $state, Auth) {
-    var main = this;
+    var main = this,
+      currentUser = false;
 
     main.auth = Auth;
 
@@ -36,9 +38,11 @@
 
     main.auth.$onAuth(function (authData) {
       if(authData) {
+        currentUser = true;
         UserModel.setCurrentUser(authData.uid);
       }
       else {
+        currentUser = true;
         UserModel.setCurrentUser(null);
       }
     })
@@ -48,6 +52,8 @@
     $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
       event.preventDefault();
       if(error === "AUTH_REQUIRED") {
+        currentUser = false;
+        
         $state.go("login");
       }
     })

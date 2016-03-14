@@ -4,24 +4,11 @@ var gulp = require("gulp"),
   cleanCSS = require('gulp-clean-css'),
   uglify = require("gulp-uglify"),
   sourcemaps = require("gulp-sourcemaps"),
+  del = require("del"),
   autoprefixer = require('gulp-autoprefixer'),
   savefile = require('gulp-savefile');
 
-gulp.task("watch", function() {
-  gulp.watch("src/assets/scss/**/*.scss", ["build-css"]);
-})
-
-gulp.task("server", function() {
-  return gulp.src('dev')
-    .pipe(webserver({
-      livereload: true,
-      directoryListing: true,
-      open: true,
-      port: 8080
-    }));
-})
-
-gulp.task("build-css", function() {
+function build_css() {
   return gulp.src("src/assets/scss/app.scss")
       .pipe(savefile())
       .pipe(sourcemaps.init())
@@ -31,7 +18,25 @@ gulp.task("build-css", function() {
       }))
       .pipe(sass())
       .pipe(sourcemaps.write("."))
-      .pipe(gulp.dest("dev/app.css"));
+      .pipe(gulp.dest("dev/"));
+};
+
+
+gulp.task("watch", function() {
+  gulp.watch("src/assets/scss/**/*.scss", ["build"]);
+})
+
+gulp.task("server", function() {
+  return gulp.src('dev')
+    .pipe(webserver({
+      livereload: true,
+      open: true,
+      port: 8080
+    }));
+})
+
+gulp.task("clean", function() {
+  del(["dev/app.css"])
 });
 
 gulp.task("minify-css", function() {
@@ -44,5 +49,6 @@ gulp.task("minify-js", function() {
   // TODO: how to minify angular files properly.
 })
 
-gulp.task("build", ["minify-css, minify-js"]);
-gulp.task("default", ['watch', 'server']);
+
+gulp.task("build", ["clean"], build_css);
+gulp.task("default", ['watch']);

@@ -1,4 +1,4 @@
-<div class="form-wrap">
+<div class="wrapper-login">
   <form
   name="login.loginForm"
   class="login-form"
@@ -7,9 +7,8 @@
 
     <h2>Please sign in/up</h2>
     <p
-    class="alert-login"
     ng-if="login.error"
-    ng-bind="{{login.error}}}">
+    ng-bind="login.error">
     </p>
 
     <fieldset>
@@ -51,8 +50,8 @@
         <input
         type="password"
         name="passInput"
+        minlength="8"
         ng-model="login.loginForm.pass"
-        pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$"
         required />
         <div
         ng-messages="login.loginForm.passInput.$error"
@@ -62,16 +61,8 @@
           You did not enter your password!
           </span>
           <span
-          ng-message="pattern">
-          Your password is incorrect!
-          </span>
-          <span
           ng-message="minlength">
           Your password is too short!
-          </span>
-          <span
-          ng-message="maxlength">
-          Your password is too long!
           </span>
         </div>
       </div>
@@ -84,10 +75,11 @@
         </label>
       </div>
 
-      <button type="button"
-      class="btn btn-default "
+      <button
+      class="btn btn-ok "
       type="submit"
-
+      ng-class="{'btn-warning': !login.loginForm.$valid}"
+      ng-disabled="!login.loginForm.$valid"
       >
       <span>Jump in!</span>
       </button>

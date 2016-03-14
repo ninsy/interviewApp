@@ -19,18 +19,17 @@
       })
   }
 
-  function loginController() {
+  function loginController(UserModel, $state) {
 
     var login = this;
-        // formData = {
-        //   email: login.loginForm.email,
-        //   pass: login.loginForm.pass
-        // }
+
 
     login.submit = submit;
     login.reset = reset;
+    login.error = '';
 
     function submit(isValid) {
+
       if(isValid) {
 
         if(login.loginForm.register) {
@@ -40,6 +39,7 @@
           logIn();
         }
       }
+
     }
 
     function reset() {
@@ -50,7 +50,8 @@
 
   ////////////////////////////////////////////////////////////
   function logIn() {
-    UserModel.login(formData)
+
+    UserModel.login(login.loginForm)
     .then(onSuccess)
     .catch(onError)
     .finally(onCompletion)
@@ -59,13 +60,27 @@
     login.reset();
   }
   function onError(error) {
-    login.error = error.reason;
+    switch(error.code) {
+      case "INVALID_USER":
+        login.error = "	The specified user account does not exist.";
+        break;
+      case "INVALID_PASSWORD":
+        login.error = "The specified user account password is incorrect."
+        break;
+      case "EMAIL_TAKEN":
+        login.error = "The new user account cannot be created because the specified email address is already in use.";
+        break;
+      case "NETWORK_ERROR":
+        login.error = "An error occurred while attempting to contact the authentication server.";
+        break;
+    }
+    console.log(error.code);
   }
   function onSuccess(result) {
-    $state.go("boards");
+    $state.go("generate");
   }
     function register() {
-      UserModel.register(formData)
+      UserModel.register(login.loginForm)
         .then(logIn)
         .catch(onError)
         .finally(onCompletion)

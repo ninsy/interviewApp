@@ -49,20 +49,20 @@
 
     function deleteResource(resource) {
       if(resource["data"].hasOwnProperty("selfCategories")) {
-        requestQuestionsService.delete({userID: UserModel.getCurrentUser, questionID: resource["id"]})
+        requestQuestionsService.delete({userID: UserModel.getCurrentUser(), questionID: resource["id"]})
       }
       else  {
-        requestCategoriesService.delete({userID: UserModel.getCurrentUser, categoryID: resource["id"]})
+        requestCategoriesService.delete({userID: UserModel.getCurrentUser(), categoryID: resource["id"]})
       }
     }
 
     function postResources() {
       newResources.forEach(function(newRes) {
         if(newRes["data"].hasOwnProperty("selfCategories")) {
-          requestQuestionsService.save({userID: UserModel.getCurrentUser}, newRes);
+          requestQuestionsService.save({userID: UserModel.getCurrentUser()}, newRes);
         }
         else {
-          requestCategoriesService.save({userID: UserModel.getCurrentUser}, newRes);
+          requestCategoriesService.save({userID: UserModel.getCurrentUser()}, newRes);
         }
       })
     }
@@ -70,12 +70,12 @@
     function updateResources() {
       if(editedCategories.length > 0) {
         editedCategories.forEach(function(changedCat) {
-          requestCategoriesService.updateCategory({user: UserModel.getCurrentUser, categoryID: changedCat["id"]}, changedCat["data"]);
+          requestCategoriesService.updateCategory({user: UserModel.getCurrentUser(), categoryID: changedCat["id"]}, changedCat["data"]);
         });
       }
       if(editedQuestions.length > 0) {
         editedQuestions.forEach(function(changedQ) {
-          requestQuestionsService.updateQuestion({user: UserModel.getCurrentUser, questionID: changedQ['id']}, changedQ["data"]);
+          requestQuestionsService.updateQuestion({user: UserModel.getCurrentUser(), questionID: changedQ['id']}, changedQ["data"]);
         });
       }
     }

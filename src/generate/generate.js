@@ -6,14 +6,14 @@ angular
   .controller('GenerateCtrl', GenerateController );
 
 generateConfig.$inject = ['$stateProvider'];
-GenerateController.$inject = ['UserModel','DataModel', "requestUser" , '$stateProvider'];
+GenerateController.$inject = ['UserModel','DataModel', "$state"];
 generateAuthCheck.$inject = ['Auth'];
 
 function generateConfig($stateProvider) {
   $stateProvider
     .state("generate", {
       url: "/generate",
-      templateUrl: "src/generate/generate.html",
+      templateUrl: "generate/generate.html",
       controller: "GenerateCtrl",
       controllerAs: "generator",
       resolve: {

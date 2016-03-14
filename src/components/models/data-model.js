@@ -11,14 +11,12 @@
 
   function DataModel(UserModel, requestUser) {
 
-    // Sprawdzic jak to jesst instancjonowane, ew. var service - this;
     var data = {
       fetchData: fetchData,
       appendQuestion: appendQuestion,
       detachQuestion: detachQuestion,
       questionCount: questionCount,
       getQuestion: getQuestion,
-      isPickedQuestion: isPickedQuestion,
       resetData: resetData
     },
       pickedQuestions = [],  //  TABLICA UZYWANA JEDYNIE PODCZAS TWORZENIA SESJI ORAZ JEJ TRWANIA
@@ -100,8 +98,11 @@
 
     // TODO: Czy ta funkcja wewnatrz dziala jak promise?
     // TODO: koniecznie sprawsdzic, w jakim formacie zwroci te dane - MUSI BYC TABLICA OBIEKTOW
+
+
+    // TODO: TUTAJ SIE SYPIE!!!
     function fetchData() {
-      var req = requestUser.query({user: UserModel.getCurrentUser});
+      var req = requestUser.query({user: UserModel.getCurrentUser()});
       req.$promise.then(preParse);
     }
 

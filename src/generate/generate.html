@@ -1,1 +1,7 @@
-TODO: wyswietlanie pytan z DataModel.userData["userQuestions"];
+<nav class="category-sidebar">
+  <ul>
+    <li ng-repeat="userCat in DataModel.userData['userCategories']">
+      {{userCat["data"].description}}
+    </li>
+  </ul>
+</nav>

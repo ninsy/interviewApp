@@ -15,9 +15,13 @@
 </head>
 <body ng-controller="MainCtrl as main">
 
-  <section class="wrapper-app">
-    <nav class="navbar navbar-default navbar-right">
-
+  <section class="wrapper-app container-fluid">
+    <nav id="main-navbar" class="navbar navbar-default">
+      <ul ng-if='main.currentUser'>
+        <li>
+          <a ui-sref="login">Logout</a>
+        </li>
+      </ul>
     </nav>
 
     <div ui-view></div>
@@ -39,13 +43,14 @@
   <script src="../app/bower_components/angular-strap/dist/angular-strap.js"></script>
   <script src="../app/bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
   <script src="../app/bower_components/angular-strap/dist/angular-strap.compat.js"></script>
+  <script src="../app/bower_components/angular-messages/angular-messages.js"></script>
   <script src="../app/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 
   <script src="app.js"></script>
   <script src="components/components.js"></script>
   <script src="components/models/data-model.js"></script>
-  <script src="components/models/user-model.js"></script>
   <script src="components/models/requests-model.js"></script>
+  <script src="components/models/user-model.js"></script>
   <script src="components/models/crudy-model.js"></script>
   <script src="components/services/auth-service.js"></script>
   <script src="login/login.js"></script>

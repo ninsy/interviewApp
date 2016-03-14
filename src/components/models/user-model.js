@@ -31,8 +31,8 @@ function UserModel(Auth) {
 
     function login(user) {
       return Auth.$authWithPassword({
-          email: user.email,
-          pass: user.pass
+          password: user.pass,
+          email: user.email
         }, function(error, authData) {
         if(error) {
           currentUser = null;
@@ -48,8 +48,8 @@ function UserModel(Auth) {
 
     function register(user) {
       return Auth.$createUser({
-          email: user.email,
-          pass: user.pass
+          password: user.pass,
+          email: user.email
         }, function(error, authData) {
         if(error) {
           console.log("Failed to register", error);
