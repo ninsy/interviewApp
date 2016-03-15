@@ -16,7 +16,7 @@
     .config(appConfig)
     .run(runner)
 
-  MainController.$inject = ['UserModel', "$state", "Auth"];
+  MainController.$inject = ['UserModel','DataModel', "$state", "Auth"];
   appConfig.$inject = ["$urlRouterProvider"];
   runner.$inject = ["$rootScope", "$state"];
 
@@ -24,25 +24,25 @@
     $urlRouterProvider.otherwise("/generate");
   }
 
-  function MainController(UserModel, $state, Auth) {
-    var main = this,
-      currentUser = null;
+  function MainController(UserModel, DataModel, $state, Auth) {
+    var main = this;
 
     main.auth = Auth;
-
+    main.currentUser = null;
 
     main.logout = function() {
       UserModel.logout();
+      DataModel.resetData();
       $state.go("login");
     }
 
     main.auth.$onAuth(function (authData) {
       if(authData) {
-        currentUser = authData.uid;
+        main.currentUser = authData.uid;
         UserModel.setCurrentUser(authData.uid);
       }
       else {
-        currentUser = null;
+        main.currentUser = null;
         UserModel.setCurrentUser(null);
       }
     })

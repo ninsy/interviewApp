@@ -19,13 +19,13 @@
     <nav id="main-navbar" class="navbar navbar-default">
       <ul class="nav navbar-nav navbar-right" >
         <li>
-          <a href="https://github.com/ninsy/interviewApp">GitHub</a>
+          <a href="https://github.com/ninsy/interviewApp" target="_blank">GitHub</a>
         </li>
         <li>
-          <a href="https://github.com/ninsy/interviewApp">Google</a>
+          <a href="https://github.com/ninsy/interviewApp" target="_blank">Google</a>
         </li>
-        <li>
-          <a ng-if="main.currentUser" ng-click="main.logout()">Logout</a>
+        <li ng-if="main.currentUser">
+          <a ng-click="main.logout()">Logout</a>
         </li>
       </ul>
     </nav>
@@ -61,12 +61,12 @@
   <script src="components/services/auth-service.js"></script>
   <script src="login/login.js"></script>
   <script src="generate/generate.js"></script>
-  <!-- <script src="summary/summary.js"></script>
-  <script src="crudy/crudy.js"></script> -->
-  <!-- <script src="crudy/listViews/categories/crudy.categories.js"></script>
+  <script src="summary/summary.js"></script>
+  <script src="crudy/crudy.js"></script>
+  <script src="crudy/listViews/categories/crudy.categories.js"></script>
   <script src="crudy/listViews/questions/crudy.questions.js"></script>
   <script src="crudy/listViews/categories/modal/category.js"></script>
-  <script src="crudy/listViews/questions/modal/question.js"></script> -->
+  <script src="crudy/listViews/questions/modal/question.js"></script>
 
 </body>
 </html>

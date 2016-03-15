@@ -1,10 +1,28 @@
-<nav class="category-sidebar">
+<div class="category-sidebar">
   <ul>
-    <li>
-      <span>Hey</span>
-    </li>
-    <li ng-repeat="userCat in DataModel.userData['userCategories']">
-      {{userCat["data"].description}}
+    <li class="list-item-label" ng-repeat="userCat in generator.stuff['categories'] track by $index"
+      ng-click="generator.setCategory(userCat.id)"
+      ng-class="{'marked': generator.getCategory() === userCat.id}">
+      <p>
+        {{userCat.data}}
+      </p>
     </li>
   </ul>
-</nav>
+</div>
+
+
+<div class="wrapper-question">
+  <ul ng-if="generator.currentCategory">
+    <li
+      ng-repeat="userQ in generator.stuff['questions'] | categoryFilter:generator.currentCategory track by $index"
+      ng-class="{'marked': userQ.marked}"
+      ng-click="generator.toggleActivity(userQ)">
+        {{userQ.data['description']}}
+    </li>
+  </ul>
+</div>
+
+<button
+ class="btn btn-default submit-button"
+ ng-click="generator.startSession()"
+ type="button">Start new session</button>

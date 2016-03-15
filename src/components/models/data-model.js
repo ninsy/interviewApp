@@ -72,32 +72,49 @@
     // ]
 
 
-    // TODO: Upewnic sie kolejnosci zwracania, czy zawsze zwraca tak samo
     function preParse(responseData) {
 
+      // TODO: Ustawiac klase sygnalizujaca brak danych
       if(responseData === null) {
         return;
       }
 
-      var fetchedQuestions = responseData[1],
-          fetchedCategories = responseData[0],
+      var userDataObject = responseData[UserModel.getCurrentUser()],
+        userFetchedCategories = userDataObject["categories"],
+        userFetchedQuestions = userDataObject["questions"],
+        newItemTemplate = {
+              marked: false,
+              id: 0,
+              data: {}
+        }
+
+        _.forEach(userFetchedCategories, function(categoryData, categoryKeyID) {
+          newItemTemplate.id = categoryKeyID;
+          newItemTemplate.data = categoryData;
+          userData["userCategories"].push(newItemTemplate)
           newItemTemplate = {
                 marked: false,
                 id: 0,
                 data: {}
           }
+        })
 
-          _.forEach(fetchedQuestions, function(questionData, questionKeyID) {
+          _.forEach(userFetchedQuestions, function(questionData, questionKeyID) {
             newItemTemplate.id = questionKeyID;
             newItemTemplate.data = questionData;
             userData["userQuestions"].push(newItemTemplate)
+            newItemTemplate = {
+                  marked: false,
+                  id: 0,
+                  data: {}
+            }
           });
 
-          _.forEach(fetchedCategories, function(categoryData, categoryKeyID) {
-            newItemTemplate.id = categoryKeyID;
-            newItemTemplate.data = categoryData;
-            userData["userCategories"].push(newItemTemplate)
-          })
+
+        return {
+          cats: userData["userCategories"],
+          questions: userData["userQuestions"]
+        }
     }
 
 
@@ -107,19 +124,17 @@
 
     function fetchData() {
       var req = requestUser.get({user: UserModel.getCurrentUser()});
-      req.$promise.then(preParse);
+      return req.$promise.then(preParse);
     }
 
     function appendQuestion(question) {
       /// TODO: format picked question: {marked: ..., id: ...., data: ....}
-      question.marked = true;
-      pickedQuestions.append(question);
+      pickedQuestions.push(question);
     }
 
 
     // TODO: ZWERYFIKOWAC POPRAWNE DZIALANIE
     function detachQuestion(question) {
-      question.marked = false;
       _.remove(pickedQuestions, function(pq) {
         return question.id === pq.id;
       })
@@ -136,6 +151,8 @@
     }
 
     function resetData() {
+      userData.userCategories.length = 0;
+      userData.userQuestions.length = 0;
       pickedQuestions.length = 0;
     }
 

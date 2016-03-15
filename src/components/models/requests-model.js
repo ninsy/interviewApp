@@ -13,7 +13,7 @@
 
   function requestUser($resource, FIREBASE_URI) {
 
-    var user = $resource(FIREBASE_URI + "users/:user" + ".json", {user: '@user'});
+    var user = $resource(FIREBASE_URI + "users/:userID" + ".json", {userID: '@userID'});
     return user;
   }
 

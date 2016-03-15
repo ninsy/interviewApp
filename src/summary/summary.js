@@ -2,24 +2,29 @@
 
 angular
   .module("interviewApp")
-  .config('summaryConfig', summaryConfig)
+  .config(summaryConfig)
   .controller("SummaryCtrl", summaryController);
 
 summaryConfig.$inject = ['$stateProvider'];
 summaryController.$inject = ["UserModel", 'DataModel', "requestQuestionsService", "QUESTIONS_CONST"];
 summaryAuthCheck.$inject = ['Auth'];
+checkPickedAmount.$inject = ['DataModel']
 
 function summaryConfig($stateProvider) {
   $stateProvider
-    .state("creator", {
-      url: "/creator",
-      templateUrl: "/creator/creator.html",
+    .state("summary", {
+      url: "/summary",
+      templateUrl: "summary/summary.html",
       controller: "SummaryCtrl",
       controllerAs: "summary",
       resolve: {
-        'currentUser': summaryAuthCheck
+        'currentUser': summaryAuthCheck,
       }
     })
+}
+
+function checkPickedAmount(DataModel) {
+  return DataModel.questionCount() > 0;
 }
 
 function summaryController(UserModel,  DataModel, requestQuestionsService, QUESTIONS_CONST) {
@@ -46,7 +51,7 @@ function summaryController(UserModel,  DataModel, requestQuestionsService, QUEST
       reqCount = filtered.length;
 
     updateState(filtered);
-    
+
     if(questionCount === reqCount) {
       $state.go("/generate");
     }

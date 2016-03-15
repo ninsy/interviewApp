@@ -6,15 +6,15 @@ ol, ul {
   list-style: none;
 }
 
-a{
+a {
   font-weight: bold;
   &:hover, &:active, &:link {
     text-decoration: none;
   }
 }
 
-html {
-  min-height: 100%;
+html, body {
+  height: 100%;
 }
 
 #main-navbar {
@@ -23,30 +23,26 @@ html {
 }
 
 .category-sidebar {
-  border-right: 1px solid $primary-jcolor;
-  height: 100%;
+  display: block;
+  height: 82.5%;
   width: 220px;
-  background: $secondary-jcolor;
+  overflow: auto;
+  position: fixed;
+  background: darken($light-grey, 10);
   ul {
-    padding: 0;
-    margin: 0 auto;
-    li {
-      height: 50px;
-      width: 100%;
-      display: block;
-    }
+      @include zero_padding_margin();
+      overflow: hidden;
+  }
+  li {
+    @include list-item($sidebar-li, 10px);
   }
 }
 
-.category-sidebar li {
-  @include selectable($secondary-jcolor);
-  display: block;
-}
+
 
 body {
-  height: 1024px;
-  margin: 0 auto;
-  padding: 0;
+  @include zero_padding_margin();
+  min-height: 100%;
   background-color: $primary-jcolor;
 }
 
@@ -73,17 +69,25 @@ form * {
 .alert {
   &-form {
     & > span {
-
+      position: relative;
     }
    }
 }
 
+.submit-button {
+  clear: both;
+  float: right;
+  padding: 20px;
+  margin-top: 50px;
+  margin-right: 150px;
+}
 
 .wrapper {
   &-app {
     border: 10px solid $light-grey;
     min-height: 100%;
     padding: 10px;
+    position: relative;
   }
   &-login {
     width: 50%;
@@ -91,6 +95,21 @@ form * {
     background: white;
     padding: 20px 0;
     text-align: center;
+  }
+  &-question {
+    height: 470px;
+    max-height: 100%;
+    width:400px;
+    margin-right: 100px;
+    float: right;
+    border: 1px solid white;
+    ul {
+      width: 100%;
+      @include zero_padding_margin()
+    }
+    li {
+      @include list-item($light-grey, 5px);
+    }
   }
   &-crudy {
 

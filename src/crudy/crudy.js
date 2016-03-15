@@ -6,14 +6,14 @@
 
   angular
     .module("interviewApp")
-    .config("CrudyConfig", CrudyConfig)
+    .config(CrudyConfig)
     .controller("CrudyCtrl", CrudyController)
     .filter("byName", nameFilter)
     .filter("byCategory", categoryFilter)
 
    CrudyController.$inject = ["CrudyModel", "DataModel"];
-   CrudyConfig.$inject = ['$stateProvider', "DataModel"];
-   checkData.$inject = ["UserModel"];
+   CrudyConfig.$inject = ['$stateProvider'];
+   checkData.$inject = ["DataModel"];
    checkAuth.$inject = ['Auth'];
 
   function nameFilter() {
@@ -52,7 +52,7 @@
         controllerAs: "crudy",
         resolve: {
           "CurrentUser": checkAuth,
-          "UserData": checkData
+          "userData": checkData
         }
       })
         .state("crudy.categories", {

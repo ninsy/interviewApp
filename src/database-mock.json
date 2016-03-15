@@ -1,6 +1,6 @@
 {
   "users": {
-    "49f9fc92-e5dc-41c3-8cf6-6cc9075c4f7c": {
+    "3c5f7685-083d-424f-81be-f8a2d6a0ff9d": {
         "categories": {
           "id1": "performance",
           "id2": "algorithms",
@@ -9,7 +9,7 @@
         },
         "questions": {
           "qid1": {
-            "description": "...",
+            "description": "What is a closure?",
             "recentlyHasBeen": 0.25,
             "sessionsAgo": 2,
             "options": [
@@ -23,11 +23,10 @@
               "id2": true,
               "id3": true,
               "id4": true,
-              "id5": true
             }
           },
           "qid2": {
-            "description": "...",
+            "description": "Difference between let and var?",
             "recentlyHasBeen": 0.5,
             "sessionsAgo": 3,
             "options": [
@@ -37,14 +36,76 @@
               "..."
             ],
             "selfCategories": {
-              "foo": true,
-              "bar": true,
-              "baz": true,
-              "eax": true,
-              "eaf": true
+              "id1": true,
+              "id2": false,
+              "id3": true,
+              "id4": false
+            }
+          },
+          "qid3": {
+            "description": "How to iterate over object?",
+            "recentlyHasBeen": 0.25,
+            "sessionsAgo": 2,
+            "options": [
+              "...",
+              "...",
+              "...",
+              "..."
+            ],
+            "selfCategories": {
+              "id1": true,
+              "id2": true,
+              "id3": false,
+              "id4": false,
+            }
+          },
+        }
+      },
+      "616b03b4-fee0-4c31-8064-9d90abd16864": {
+          "categories": {
+            "id1": "performance",
+            "id2": "java",
+            "id3": "c#",
+            "id4": "python"
+          },
+          "questions": {
+            "qid1": {
+              "description": "What is Global Interpreted Lock in Python?",
+              "recentlyHasBeen": 0.25,
+              "sessionsAgo": 2,
+              "options": [
+                "...",
+                "...",
+                "...",
+                "..."
+              ],
+              "selfCategories": {
+                "id1": true,
+                "id2": true,
+                "id3": true,
+                "id4": true,
+                "id5": true
+              }
+            },
+            "qid2": {
+              "description": "What is garbage collector?",
+              "recentlyHasBeen": 0.5,
+              "sessionsAgo": 3,
+              "options": [
+                "...",
+                "...",
+                "...",
+                "..."
+              ],
+              "selfCategories": {
+                "foo": true,
+                "bar": true,
+                "baz": true,
+                "eax": true,
+                "eaf": true
+              }
             }
           }
         }
-      }
   }
 }

@@ -1,11 +1,29 @@
-@mixin selectable($bg-color: lighten($primary-jcolor), $percent: 5) {
+@mixin selectable($bg-color: lighten($primary-jcolor), $percent: 10) {
   background-color: $bg-color;
   &:hover {
-    background-color: darken($bg-color, $percent);
-  }
-  &.active {
     background-color: lighten($bg-color, $percent);
+  }
+  &.marked {
+    background-color: darken($bg-color, $percent);
   }
 }
 
-// TODO: MIXINY DO WSZELAKICH LIST ITEMOW
+@mixin list-item($bg-color, $el-padding: 5px, $height: 50px, $border-direction: 'bottom', $border-color: darken($bg-color, 10)) {
+  @include selectable($bg-color);
+  height: $height;
+  padding: $el-padding;
+  display: block;
+  width: 100%;
+  border-#{$border-direction}: 2px solid $border-color;
+  &:last-child {
+    border-#{$border-direction}: none;
+  }
+  span, a {
+    padding: 20px;
+  }
+}
+
+@mixin zero_padding_margin() {
+  padding: 0;
+  margin: 0 auto;
+}
