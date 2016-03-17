@@ -1,6 +1,17 @@
-<div class="summary">
+<div class="category-sidebar">
+  <ul>
+    <li class="list-item-label" ng-repeat="userCat in generator.stuff['categories'] track by $index"
+      ng-click="generator.setCategory(userCat.id)"
+      ng-class="{'marked': generator.getCategory() === userCat.id}">
+      <p>
+        {{userCat.data}}
+      </p>
+    </li>
+  </ul>
+</div>
 
-  <category-bar></category-bar>
+
+<div class="wrapper-summary">
 
   <ul class="picked-questions" >
     <li ng-repeat="question in DataModel.pickedQuestions | orderBy: '-recentlyHasBeen' ">

@@ -36,6 +36,7 @@ function summaryController(UserModel,  DataModel, requestQuestionsService, QUEST
   summary.markAsAsked = markAsAsked;
   summary.updateState = updateState;
 
+  summary.chosenCategories = chosenCategories;
 
   function filterQuestions() {
     return _.filter(DataModel.pickedQuestions, function(q) {
@@ -43,11 +44,15 @@ function summaryController(UserModel,  DataModel, requestQuestionsService, QUEST
     })
   }
 
+  function filterCategories() {
+
+  }
+
     // TODO: TUTAJ MUSI BYC PROMISE, INACZEJ DOSZLOBY DO SYTUACJI, GDZIE REQUESTY BYLYBY WYKONYWANE, A STATE JUZ ZMIENILBY SIE NA GENERATE
   function finishSession() {
 
     var filtered = filterQuestions(),
-      questionCount = 0,s
+      questionCount = 0,
       reqCount = filtered.length;
 
     updateState(filtered);

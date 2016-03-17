@@ -18,6 +18,12 @@
   <section class="wrapper-app container-fluid">
     <nav id="main-navbar" class="navbar navbar-default">
       <ul class="nav navbar-nav navbar-right" >
+        <li ng-if="main.checkState('crudy')">
+          <a ng-click="main.changeState('generate')">Create session</a>
+        </li>
+        <li ng-if="main.checkState('generate')">
+          <a ng-click="main.changeState('crudy')">Manage</a>
+        </li>
         <li>
           <a href="https://github.com/ninsy/interviewApp" target="_blank">GitHub</a>
         </li>

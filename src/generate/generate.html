@@ -1,7 +1,7 @@
 <div class="category-sidebar">
   <ul>
     <li class="list-item-label" ng-repeat="userCat in generator.stuff['categories'] track by $index"
-      ng-click="generator.setCategory(userCat.id)"
+      ng-click="generator.setCategory(userCat.id);check()"
       ng-class="{'marked': generator.getCategory() === userCat.id}">
       <p>
         {{userCat.data}}

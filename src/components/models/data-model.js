@@ -111,12 +111,15 @@
           });
 
 
-        return {
-          cats: userData["userCategories"],
-          questions: userData["userQuestions"]
-        }
+        return getParsedData();
     }
 
+    function getParsedData() {
+      return {
+        cats: userData["userCategories"],
+        questions: userData["userQuestions"]
+      }
+    }
 
     // TODO: Czy ta funkcja wewnatrz dziala jak promise?
     // TODO: koniecznie sprawsdzic, w jakim formacie zwroci te dane - MUSI BYC TABLICA OBIEKTOW

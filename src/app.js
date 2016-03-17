@@ -20,6 +20,7 @@
   appConfig.$inject = ["$urlRouterProvider"];
   runner.$inject = ["$rootScope", "$state"];
 
+
   function appConfig($urlRouterProvider) {
     $urlRouterProvider.otherwise("/generate");
   }
@@ -34,6 +35,17 @@
       UserModel.logout();
       DataModel.resetData();
       $state.go("login");
+    }
+
+    main.checkState = function(routeName) {
+      return $state.includes(routeName);
+    }
+
+    main.changeState = function(destination) {
+      DataModel.resetData();
+      if(!main.checkState(destination)) {
+        $state.go(destination);
+      }
     }
 
     main.auth.$onAuth(function (authData) {
