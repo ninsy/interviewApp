@@ -16,14 +16,14 @@
       appendQuestion: appendQuestion,
       detachQuestion: detachQuestion,
       questionCount: questionCount,
-      getQuestion: getQuestion,
       resetData: resetData
-    },
-      pickedQuestions = [],  //  TABLICA UZYWANA JEDYNIE PODCZAS TWORZENIA SESJI ORAZ JEJ TRWANIA
+    },//  TABLICA UZYWANA JEDYNIE PODCZAS TWORZENIA SESJI ORAZ JEJ TRWANIA
       userData = {
         userCategories: [],
         userQuestions: []
       };
+
+      var pickedQuestions = [];
 
     return data;
 
@@ -79,6 +79,8 @@
         return;
       }
 
+      resetFechtedData();
+
       var userDataObject = responseData[UserModel.getCurrentUser()],
         userFetchedCategories = userDataObject["categories"],
         userFetchedQuestions = userDataObject["questions"],
@@ -126,18 +128,22 @@
 
 
     function fetchData() {
-      var req = requestUser.get({user: UserModel.getCurrentUser()});
-      return req.$promise.then(preParse);
+        var req = requestUser.get({user: UserModel.getCurrentUser()});
+        return req.$promise.then(preParse);
     }
 
     function appendQuestion(question) {
       /// TODO: format picked question: {marked: ..., id: ...., data: ....}
+      console.log("got " + question);
+      question.marked = true;
       pickedQuestions.push(question);
+      console.log("After push: " + pickedQuestions)
     }
 
 
     // TODO: ZWERYFIKOWAC POPRAWNE DZIALANIE
     function detachQuestion(question) {
+      question.marked = false;
       _.remove(pickedQuestions, function(pq) {
         return question.id === pq.id;
       })
@@ -147,16 +153,28 @@
       return pickedQuestions.length;
     }
 
-    function getQuestion(question) {
-      return _.find(pickedQuestions, function(pq) {
-        return question.id === pq.id;
+    // TODO: MARKED STATE USED ONLY FOR UI STUFF
+    function resetMarkedState() {
+      _.forEach(userData["userQuestions"], function(q) {
+        q.marked = false;
       })
     }
 
-    function resetData() {
-      userData.userCategories.length = 0;
+    function resetFechtedData() {
       userData.userQuestions.length = 0;
-      pickedQuestions.length = 0;
+      userData.userCategories.length = 0;
+    }
+
+    function resetData(flag) {
+      switch(flag) {
+        case "LOGOUT":
+          resetFechtedData();
+          break;
+        case "RESET_QUESTIONS":
+        case "STATE_CHANGE":
+          resetMarkedState()
+          break;
+      }
     }
 
   }

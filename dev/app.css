@@ -5951,14 +5951,14 @@ form * {
 .list-item-label, .list-nav {
   text-transform: capitalize;
   text-align: center;
-  font-weight: bold;
-  text-shadow: 0 2px #262626; }
+  font-weight: bold; }
 
 .list-item-label {
   font-size: 1.4em; }
 
 .list-nav {
-  font-size: 1.6em; }
+  font-size: 1.6em;
+  text-shadow: 0 2px #262626; }
 
 #select-display {
   padding: 0;

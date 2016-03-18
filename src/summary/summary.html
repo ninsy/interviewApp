@@ -1,10 +1,12 @@
+<!-- sTODO: CATEGORY SIDEBAR JAKO DYREKTYWA KONIECZNIE -->
+
 <div class="category-sidebar">
   <ul>
-    <li class="list-item-label" ng-repeat="userCat in generator.stuff['categories'] track by $index"
-      ng-click="generator.setCategory(userCat.id)"
-      ng-class="{'marked': generator.getCategory() === userCat.id}">
+    <li class="list-item-label" ng-repeat="chosenCat in summary.chosenCategories track by $index"
+      ng-click="summary.setCategory(chosenCat.id)"
+      ng-class="{'marked': summary.getCategory() === chosenCat.id}">
       <p>
-        {{userCat.data}}
+        {{chosenCat.data['description']}}
       </p>
     </li>
   </ul>
@@ -15,16 +17,27 @@
 
   <ul class="picked-questions" >
     <li ng-repeat="question in DataModel.pickedQuestions | orderBy: '-recentlyHasBeen' ">
-        <button
-        ng-click="creator.editQuestion(question)"></button>
-        <button></button>
-        <input
-        type="text"
-        placeholder="{{question.description}}" />
+        <button type="button"
+        class="btn btn-primary"
+        aria-haspopup="true"
+        aria-expanded="false">
+          <span class="glyphicon glyphicon-th-list"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li
+          ng-repeat="opt in question.data['options']">
+            <p>
+              {{opt}}
+            </p>
+          </li>
+        </ul>
+        <p>
+          {{question.data['description']}}
+        </p>
         <input
         type="checkbox"
         ng-model="checked"
-        ng-click="creator.markAsAsked(question)"></button>
+        ng-click="summary.markAsAsked(question)"></button>
     </li>
   </ul>
 </div>

@@ -33,10 +33,11 @@ function summaryController(UserModel,  DataModel, requestQuestionsService, QUEST
 
   summary.filterQuestions = filterQuestions;
   summary.finishSession = finishSession;
-  summary.markAsAsked = markAsAsked;
   summary.updateState = updateState;
 
-  summary.chosenCategories = chosenCategories;
+  summary.chosenCategories = [];
+
+  filterCategories();
 
   function filterQuestions() {
     return _.filter(DataModel.pickedQuestions, function(q) {
@@ -45,6 +46,17 @@ function summaryController(UserModel,  DataModel, requestQuestionsService, QUEST
   }
 
   function filterCategories() {
+
+    console.log("picked: " + DataModel.pickedQuestions);
+    console.log("len: " + DataModel.questionCount())
+
+       _.forEach(DataModel.pickedQuestions, function(q) {
+          summary.chosenCategories.push(q.data['selfCateogries']);
+    })
+
+    var keys = Object.keys(summary.chosenCategories).sort();
+    console.log(keys);
+
 
   }
 
@@ -58,14 +70,10 @@ function summaryController(UserModel,  DataModel, requestQuestionsService, QUEST
     updateState(filtered);
 
     if(questionCount === reqCount) {
-      $state.go("/generate");
+      $state.go("generate");
     }
-
   }
 
-  function markAsAsked(question) {
-    DataModel.getQuestion(question)
-  }
 
   function updateState(markedQuestions) {
 

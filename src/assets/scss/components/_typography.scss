@@ -13,7 +13,6 @@
   text-transform: capitalize;
   text-align: center;
   font-weight: bold;
-  text-shadow: 0 2px $black;
 }
 
 .list-item-label {
@@ -24,4 +23,5 @@
 .list-nav {
   @extend %list-item;
   font-size: 1.6em;
+    text-shadow: 0 2px $black;
 }

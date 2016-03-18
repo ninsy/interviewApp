@@ -20,32 +20,45 @@
   appConfig.$inject = ["$urlRouterProvider"];
   runner.$inject = ["$rootScope", "$state"];
 
+  function runner($rootScope, $state) {
+    $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
+      event.preventDefault();
+      if(error === "AUTH_REQUIRED") {
+        $state.go("login");
+      }
+    })
+  }
+
 
   function appConfig($urlRouterProvider) {
-    $urlRouterProvider.otherwise("/generate");
+    $urlRouterProvider.otherwise("generate");
   }
 
   function MainController(UserModel, DataModel, $state, Auth) {
     var main = this;
 
+    main.checkState = checkState;
+    main.changeState = changeState;
+    main.logout = logout;
+
     main.auth = Auth;
     main.currentUser = null;
 
-    main.logout = function() {
-      UserModel.logout();
-      DataModel.resetData();
-      $state.go("login");
-    }
-
-    main.checkState = function(routeName) {
+    function checkState(routeName) {
       return $state.includes(routeName);
     }
 
-    main.changeState = function(destination) {
-      DataModel.resetData();
+    function changeState(destination) {
+      DataModel.resetData("STATE_CHANGE");
       if(!main.checkState(destination)) {
         $state.go(destination);
       }
+    }
+
+    function logout() {
+      UserModel.logout();
+      DataModel.resetData("LOGOUT");
+      $state.go("login");
     }
 
     main.auth.$onAuth(function (authData) {
@@ -60,13 +73,5 @@
     })
   }
 
-  function runner($rootScope, $state) {
-    $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
-      event.preventDefault();
-      if(error === "AUTH_REQUIRED") {
-        $state.go("login");
-      }
-    })
-  }
 
 })();
