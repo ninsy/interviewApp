@@ -9,9 +9,19 @@
   }
 }
 
-.list-item-label {
+%list-item {
   text-transform: capitalize;
   text-align: center;
-  font-size: 1.4em;
   font-weight: bold;
+  text-shadow: 0 2px $black;
+}
+
+.list-item-label {
+  @extend %list-item;
+  font-size: 1.4em;
+}
+
+.list-nav {
+  @extend %list-item;
+  font-size: 1.6em;
 }

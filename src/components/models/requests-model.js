@@ -5,8 +5,8 @@
     .module("interview.components")
     .factory("requestUser", requestUser)
     .factory("requestQuestionsService", requestQuestionsService)
-  //   .factory("requestCategoriesService", requestCategoriesService)
-  //
+    .factory("requestCategoriesService", requestCategoriesService)
+
   requestUser.$inject = ["$resource", "FIREBASE_URI"];
   requestQuestionsService.$inject = ["$resource", "FIREBASE_URI"];
   requestCategoriesService.$inject = ["$resource", "FIREBASE_URI"];

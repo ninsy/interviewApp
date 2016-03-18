@@ -112,6 +112,8 @@ form * {
     }
   }
   &-crudy {
-
+    border: 1px solid red;
+    padding: 0;
+    min-height: 80%;
   }
 }

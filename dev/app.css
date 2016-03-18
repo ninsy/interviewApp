@@ -5939,14 +5939,31 @@ form * {
     .wrapper-question li span, .wrapper-question li a {
       padding: 20px; }
 
+.wrapper-crudy {
+  border: 1px solid red;
+  padding: 0;
+  min-height: 80%; }
+
 .alert {
   color: red;
   font-weight: bold; }
 
-.list-item-label {
+.list-item-label, .list-nav {
   text-transform: capitalize;
   text-align: center;
-  font-size: 1.4em;
-  font-weight: bold; }
+  font-weight: bold;
+  text-shadow: 0 2px #262626; }
+
+.list-item-label {
+  font-size: 1.4em; }
+
+.list-nav {
+  font-size: 1.6em; }
+
+#select-display {
+  padding: 0;
+  border-bottom: 1px solid red; }
+  #select-display li a {
+    color: #FFF; }
 
 /*# sourceMappingURL=app.css.map */

@@ -1,5 +1,6 @@
-<div class="wrapper-crudy">
-  <nav class="navbar navbar-default" role="navigation">
+<div class="wrapper-crudy container">
+
+  <nav id="select-display" class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
         data-target="#crudy-options" aria-expanded="false">
@@ -10,24 +11,22 @@
     </div>
 
     <div class="collapse navbar-collapse" id="crudy-options">
-        <ul class="nav navbar-nav">
-          <li class="col-sm-12 col-lg-6"
+        <ul class="nav row">
+          <li class="col-sm-12 col-lg-6 list-nav"
               ng-class="{'active': crudy.displayCategories}"
-              ng-click="crudy.toggleView()"
-            <a>Categories</a>
+              ng-click="crudy.toggleView()">
+            <a ui-sref="crudy.categories">Categories</a>
           </li>
-          <li "col-sm-12 col-lg-6"
+          <li class="col-sm-12 col-lg-6 list-nav"
               ng-class="{'active': crudy.displayQuestions}"
               ng-click="crudy.toggleView()"
               data-match-route="crudy.categories.html">
-            <a>Questions</a>
+            <a ui-sref="crudy.questions">Questions</a>
           </li>
         </ul>
     </div>
   </nav>
 
-
-
-  <div ui-view="list-window"></div>
+  <div ui-view></div>
 
 </div>

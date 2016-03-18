@@ -56,14 +56,14 @@
         }
       })
         .state("crudy.categories", {
-          url: "/crudy/categories",
-          templateUrl: "crudy/categories-window.html",
+          url: "/categories",
+          templateUrl: "crudy/listViews/categories/crudy.categories.html",
           controller: "categoriesCtrl",
           controllerAs: "catCtrl"
         })
         .state("crudy.questions", {
-          url:"/crudy/questions",
-          templateUrl: "crudy/questions-window.html",
+          url:"/questions",
+          templateUrl: "crudy/listViews/questions/crudy.questions.html",
           controller: "questionsCtrl",
           controllerAs: "queCtrl"
         })
