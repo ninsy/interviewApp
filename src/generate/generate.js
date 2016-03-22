@@ -94,7 +94,7 @@ function GenerateController(UserModel, DataModel,$state) {
       else if(question.marked === false) {
         DataModel.appendQuestion(question);
       }
-        console.log("picked: " + DataModel.pickedQuestions)
+        console.log("picked: " + DataModel.getPicked())
     }
 
 }

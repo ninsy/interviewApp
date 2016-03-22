@@ -16,7 +16,8 @@
       appendQuestion: appendQuestion,
       detachQuestion: detachQuestion,
       questionCount: questionCount,
-      resetData: resetData
+      resetData: resetData,
+      getPicked: getPicked
     },//  TABLICA UZYWANA JEDYNIE PODCZAS TWORZENIA SESJI ORAZ JEJ TRWANIA
       userData = {
         userCategories: [],
@@ -131,6 +132,18 @@
         var req = requestUser.get({user: UserModel.getCurrentUser()});
         return req.$promise.then(preParse);
     }
+
+
+    function getPicked(question) {
+      if(arguments.length === 0) {
+        return pickedQuestions;
+      }
+      else {
+        return _.find(pickedQuestions, function(pq) {
+          return pq.id === question.id;
+        })
+      }
+     }
 
     function appendQuestion(question) {
       /// TODO: format picked question: {marked: ..., id: ...., data: ....}

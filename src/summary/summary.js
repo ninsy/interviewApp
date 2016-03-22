@@ -47,15 +47,22 @@ function summaryController(UserModel,  DataModel, requestQuestionsService, QUEST
 
   function filterCategories() {
 
-    console.log("picked: " + DataModel.pickedQuestions);
+    console.log("picked: " + DataModel.getPicked());
     console.log("len: " + DataModel.questionCount())
 
-       _.forEach(DataModel.pickedQuestions, function(q) {
-          summary.chosenCategories.push(q.data['selfCateogries']);
+       _.forEach(DataModel.getPicked(), function(q) {
+          var currentQselfCats = q.data['selfCategories'];
+          console.log("Now on : " + q.id);
+          for(var singleSelfCat in currentQselfCats) {
+            console.log(singleSelfCat + " " + currentQselfCats[singleSelfCat] );
+            // summary.chosenCategories.push();
+          }
     })
 
-    var keys = Object.keys(summary.chosenCategories).sort();
-    console.log(keys);
+    console.log("Chosen cats: " + summary.chosenCategories);
+
+    var categoryNames = Object.keys(summary.chosenCategories).sort();
+    console.log(categoryNames);
 
 
   }
